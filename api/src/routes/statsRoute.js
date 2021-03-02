@@ -10,37 +10,24 @@ const playerStats = {
   ],
 };
 
-statsRouter
-  .route('/stats')
-  .get((req, res) => {
-    selectStats()
-      .then((response) => {
-        console.log(response);
-        res.json(response);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.json(playerStats);
-      });
-  })
-  .post((req, res) => {
-    res.send('you can not post sorry :/');
-  });
+statsRouter.route('/stats').get((req, res) => {
+  selectStats()
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      res.json({ status: 1, reason: err, data: playerStats });
+    });
+});
 
-statsRouter
-  .route('/stats/reset')
-  .get((req, res) => {
-    resetPlayers()
-      .then((response) => {
-        res.json(response);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.json(playerStats);
-      });
-  })
-  .post((req, res) => {
-    res.send('you can not post sorry :/');
-  });
+statsRouter.route('/stats/reset').get((req, res) => {
+  resetPlayers()
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      res.json({ status: 1, reason: err });
+    });
+});
 
 export default statsRouter;

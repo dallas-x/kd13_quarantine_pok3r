@@ -1,4 +1,9 @@
 <div align="center">
+    <a href="https://sheldyn.io">
+        <img src="https://raw.githubusercontent.com/k1ddarkn3ss/kd13-quarantine-poker/main/src/assets/images/logo-poker.png">
+    </a>
+</div>
+<div align="center">
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-crayons.svg)](https://forthebadge.com)
 <br />
