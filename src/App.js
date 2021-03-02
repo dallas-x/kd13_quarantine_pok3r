@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import { Router } from '@reach/router';
 import Home from './Views/Home';
 import Admin from './Views/Admin';
+import Registration from './Views/Registration';
+import Login from './Views/Login';
 
 import Navi from './components/Navi';
 
 const App = () => {
-  const themeHook = useState('crimson');
   return (
     <React.StrictMode>
       <div>
@@ -15,6 +16,8 @@ const App = () => {
         <Router>
           <Home path="/" />
           <Admin path="/admin" />
+          <Registration path="/registration" />
+          <Login path="/login" />
         </Router>
       </div>
     </React.StrictMode>
