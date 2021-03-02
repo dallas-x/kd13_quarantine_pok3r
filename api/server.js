@@ -3,7 +3,10 @@ import debug from 'debug';
 import chalk from 'chalk';
 import bodyParser from 'body-parser';
 import path from 'path';
+import { createTables } from './src/controllers/dbFunc';
 import uploadRouter from './src/routes/uploadRoute';
+import statsRouter from './src/routes/statsRoute';
+import testRouter from './src/routes/testRoute';
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -12,6 +15,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public/')));
 app.use(uploadRouter);
+app.use(statsRouter);
+app.use(testRouter);
+
+createTables();
 
 app.get('/hey', (req, res) => res.send('ho!'));
 

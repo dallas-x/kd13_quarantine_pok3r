@@ -1,25 +1,22 @@
 import React, { useState } from 'react';
 import { render } from 'react-dom';
-import { Link, Router } from '@reach/router';
-import SearchParams from './SearchParams';
-import Details from './Details';
-import ThemeContext from './ThemeContext';
+import { Router } from '@reach/router';
+import Home from './Views/Home';
+import Admin from './Views/Admin';
+
+import Navi from './components/Navi';
 
 const App = () => {
   const themeHook = useState('crimson');
   return (
     <React.StrictMode>
-      <ThemeContext.Provider value={themeHook}>
-        <div>
-          <header>
-            <Link to="/">Adopt Me1</Link>
-          </header>
-          <Router>
-            <SearchParams path="/" />
-            <Details path="/details/:id" />
-          </Router>
-        </div>
-      </ThemeContext.Provider>
+      <div>
+        <Navi />
+        <Router>
+          <Home path="/" />
+          <Admin path="/admin" />
+        </Router>
+      </div>
     </React.StrictMode>
   );
 };
