@@ -6,12 +6,12 @@ const db = new sqlite3.Database('./api/src/db/stats.db', (err) => {
   }
 });
 
-const createTables = () => {
+export default function createTables() {
   db.run(`CREATE TABLE if not exists
           "playerStats" ( "Rank", "Player_ID" type UNIQUE, "Player", "Score", "TPP", "Games_Played")`);
   db.run(`CREATE TABLE if not exists
           "gameStats" ( "Total_Games", "TPP")`);
-};
+}
 
 const selectItem = (item) => {
   return new Promise((resolve, reject) => {

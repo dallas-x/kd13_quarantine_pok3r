@@ -3,7 +3,7 @@ import debug from 'debug';
 import chalk from 'chalk';
 import bodyParser from 'body-parser';
 import path from 'path';
-import { createTables } from './src/controllers/dbFunc';
+import database from './src/controllers/dbFunc';
 import uploadRouter from './src/routes/uploadRoute';
 import statsRouter from './src/routes/statsRoute';
 import testRouter from './src/routes/testRoute';
@@ -18,7 +18,7 @@ app.use(uploadRouter);
 app.use(statsRouter);
 app.use(testRouter);
 
-createTables();
+database.createTables();
 
 app.get('/hey', (req, res) => res.send('ho!'));
 
