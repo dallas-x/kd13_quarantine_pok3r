@@ -13,6 +13,14 @@
 
 </div>
 
+![Process Poker Stats](https://github.com/k1ddarkn3ss/gifs/blob/main/2021-03-01%2023.39.51.gif)
+
+## App Screenshots
+
+|                                                            Home Page                                                            |                                                            Admin Stats Table                                                            |                                                          Upload Files                                                           |
+| :-----------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/k1ddarkn3ss/gifs/blob/main/CleanShot%202021-03-01%20at%2023.46.18.png" title="Home " width="100%"> | <img src="https://github.com/k1ddarkn3ss/gifs/blob/main/CleanShot%202021-03-01%20at%2023.46.32.png" title="Process Files" width="100%"> | <img src="https://github.com/k1ddarkn3ss/gifs/blob/main/CleanShot%202021-03-01%20at%2023.46.56.png" title="Stats" width="100%"> |
+
 ## Folder Structure
 
     .
@@ -72,11 +80,15 @@ This Command will copy a full project to your local environment
 
 Run `yarn run serve` for a dev server. Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.
 
+![ Run Server](https://github.com/k1ddarkn3ss/gifs/blob/main/2021-03-01%2023.48.10.gif)
+
 ### Run React App
 
 Run `yarn run dev` for a dev app. Navigate to `http://localhost:1234/`. The app will automatically reload if you change any of the source files.
 
 Run `yarn run build-app` for a production app. Navigate to `http://localhost:${env.PORT}/`. The app will not automatically reload if you change any of the source files.
+
+![ Run React](https://github.com/k1ddarkn3ss/gifs/blob/main/2021-03-01%2023.47.45.gif)
 
 ### Web API
 

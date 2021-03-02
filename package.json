@@ -1,7 +1,7 @@
 {
-  "name": "poker",
+  "name": "quaratine_poker",
   "version": "1.0.0",
-  "description": "Poker app for george",
+  "description": "Take Payments, register users, and manage poker games",
   "main": "src/App.js",
   "author": "Dallas",
   "license": "MIT",
