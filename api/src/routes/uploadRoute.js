@@ -1,5 +1,5 @@
 import express from 'express';
-import { updateStats } from '../controllers/processGame';
+import { updatePlayersStats } from '../controllers/processGame';
 
 const uploadRouter = express.Router();
 
@@ -10,11 +10,9 @@ uploadRouter
   })
   .post((req, res) => {
     let Players = req.body;
-    console.log(Players);
     let TTP = Players.length;
     let results = Players.map(({ data }) => {
       let rScore = TTP - data.Rank + 1;
-      console.log(data.Rank);
       return {
         Player_ID: data.ID,
         Player: data.Player,
@@ -23,13 +21,11 @@ uploadRouter
         TPP: TTP,
       };
     });
-    updateStats(results)
+    updatePlayersStats(results)
       .then((response) => {
-        console.log(response);
         res.sendStatus(200);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((upsert_err) => {
         res.sendStatus(500);
       });
   });

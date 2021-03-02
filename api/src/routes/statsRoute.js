@@ -3,12 +3,6 @@ import { selectStats } from '../controllers/processGame';
 import { resetPlayers } from '../controllers/dbFunc';
 
 const statsRouter = express.Router();
-const playerStats = {
-  Players: [
-    { Rank: 1, Player: 'Dallas Baker', ID: 'kd13', Score: 32 },
-    { Rank: 2, Player: 'Zach n Cody', ID: 'kd42', Score: 12 },
-  ],
-};
 
 statsRouter.route('/stats').get((req, res) => {
   selectStats()

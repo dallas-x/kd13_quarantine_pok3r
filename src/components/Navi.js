@@ -49,7 +49,7 @@ const Navi = () => {
       <Container>
         <div className="navbar-translate">
           <NavbarBrand to="/" id="navbar-brand" tag={Link}>
-            <span>KD13• </span>
+            <span>Quarantine • </span>
             Poker
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">

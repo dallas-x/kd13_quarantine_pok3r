@@ -99,4 +99,6 @@ MongoDB use as Database.
 
 The MIT License 2021 Sheldyn
 
+<div align="center">
 [![forthebadge](https://forthebadge.com/images/badges/powered-by-energy-drinks.svg)](https://forthebadge.com)
+</div>
