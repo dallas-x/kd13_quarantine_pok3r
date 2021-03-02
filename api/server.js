@@ -6,7 +6,6 @@ import path from 'path';
 import database from './src/controllers/dbFunc';
 import uploadRouter from './src/routes/uploadRoute';
 import statsRouter from './src/routes/statsRoute';
-import testRouter from './src/routes/testRoute';
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -16,7 +15,6 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public/')));
 app.use(uploadRouter);
 app.use(statsRouter);
-app.use(testRouter);
 
 database.createTables();
 
