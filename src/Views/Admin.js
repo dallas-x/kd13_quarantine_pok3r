@@ -57,8 +57,9 @@ const Admin = () => {
                 <div className="profile-description">
                   <p className="text-alt">This will refresh the table below</p>
                   <p className="text-alt">
-                    Please make all feature request by using the &ldquo;Have an issue?&ldquo; button
-                    next to &ldquo;Login&ldquo;. Below are current items for the next sprint.
+                    Please make all feature request or report bugs by using the
+                    &ldquo;Feedback?&ldquo; button below. Below are current items for the next
+                    sprint.
                   </p>
                   <ul>
                     <li>Move upload function to Modal(pop-up window)</li>
@@ -69,7 +70,7 @@ const Admin = () => {
                 </div>
                 <div className="btn-wrapper">
                   <a
-                    href="https://support.sheldyn.io"
+                    href="https://github.com/k1ddarkn3ss/kd13_quarantine_pok3r/issues"
                     target="_blank"
                     rel="noreferrer"
                     className="btn btn-primary mt-3"
