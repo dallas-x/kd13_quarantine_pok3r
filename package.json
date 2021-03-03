@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Take Payments, register users, and manage poker games",
   "main": "src/App.js",
-  "author": "Dallas",
-  "license": "MIT",
+  "author": "Sheldyn",
+  "license": "Copyleft",
   "scripts": {
     "dev": "parcel serve src/index.html",
     "serve": "nodemon --exec babel-node api/server.js",
