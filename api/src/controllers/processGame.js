@@ -1,11 +1,4 @@
-import sqlite3 from 'sqlite3';
-import { upsertPlayers } from './dbFunc';
-
-const db = new sqlite3.Database('./api/src/db/stats.db', (err) => {
-  if (err) {
-    throw new Error(err);
-  }
-});
+import { upsertPlayers, selectStats } from './dbFunc';
 
 const updatePlayersStats = async (Players) => {
   const tpp = Players.length;
@@ -18,19 +11,15 @@ const updatePlayersStats = async (Players) => {
   });
 };
 
-const selectStats = () => {
+const getStats = async () => {
+  const players = await selectStats();
   return new Promise((resolve, reject) => {
-    db.serialize(() => {
-      const strSTMT = `SELECT * FROM playerStats`;
-      db.all(strSTMT, function (dberror, rows) {
-        if (dberror) {
-          reject(dberror);
-        } else {
-          resolve(rows);
-        }
-      });
-    });
+    if (players.status === 200) {
+      resolve(players.data);
+    } else {
+      reject({ status: 500, reason: 'There was an error getting players' });
+    }
   });
 };
 
-module.exports = { selectStats, updatePlayersStats };
+module.exports = { getStats, updatePlayersStats };

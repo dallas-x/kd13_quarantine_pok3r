@@ -10,7 +10,7 @@ const Admin = () => {
   async function handleRefresh() {
     event.preventDefault();
     const Players = await axios
-      .get('/api/stats')
+      .get('/api/stats/get')
       .then((response) => {
         return response.data;
       })
