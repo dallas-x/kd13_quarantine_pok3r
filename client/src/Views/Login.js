@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useOktaAuth } from '@okta/okta-react';
 import classnames from 'classnames';
 import purpleBlock from 'url:../assets/img/square-purple-1.png';
 // reactstrap components
@@ -24,11 +25,17 @@ import {
 import { Link } from '@reach/router';
 
 const Login = () => {
-  const [squares1to6, setSquares1to6] = React.useState('');
-  const [squares7and8, setSquares7and8] = React.useState('');
-  const [fullNameFocus, setFullNameFocus] = React.useState(false);
-  const [emailFocus, setEmailFocus] = React.useState(false);
-  const [passwordFocus, setPasswordFocus] = React.useState(false);
+  const { oktaAuth } = useOktaAuth();
+  const [squares1to6, setSquares1to6] = useState('');
+  const [squares7and8, setSquares7and8] = useState('');
+  const [emailFocus, setEmailFocus] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [sessionToken, setSessionToken] = useState('');
+  const [error, setError] = useState('');
+  const [termsConditions, setTermsConditions] = useState(false);
+
   useEffect(() => {
     document.body.classList.toggle('register-page');
     document.documentElement.addEventListener('mousemove', followCursor);
@@ -48,6 +55,19 @@ const Login = () => {
       'perspective(500px) rotateY(' + posX * 0.02 + 'deg) rotateX(' + posY * -0.02 + 'deg)',
     );
   };
+  const handleLogin = () => {
+    oktaAuth
+      .signInWithCredentials({ username, password })
+      .then((res) => {
+        const sessionToken = res.sessionToken;
+        setSessionToken(sessionToken);
+        oktaAuth.signInWithRedirect({ sessionToken });
+      })
+      .catch((err) => {
+        setError({ error: err.message });
+        console.error(err);
+      });
+  };
   return (
     <div className="wrapper">
       <div className="page-header">
@@ -63,8 +83,14 @@ const Login = () => {
                     <CardImg alt="..." src={purpleBlock} />
                     <CardTitle tag="h4">Login</CardTitle>
                   </CardHeader>
-                  <CardBody>
-                    <Form className="form">
+
+                  <CardBody className="form">
+                    <Form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        handleLogin(username, password);
+                      }}
+                    >
                       <InputGroup
                         className={classnames({
                           'input-group-focus': emailFocus,
@@ -78,6 +104,7 @@ const Login = () => {
                         <Input
                           placeholder="Email"
                           type="text"
+                          onChange={(e) => setUsername(e.target.value)}
                           onFocus={(e) => setEmailFocus(true)}
                           onBlur={(e) => setEmailFocus(false)}
                         />
@@ -95,6 +122,7 @@ const Login = () => {
                         <Input
                           placeholder="Password"
                           type="password"
+                          onChange={(e) => setPassword(e.target.value)}
                           onFocus={(e) => setPasswordFocus(true)}
                           onBlur={(e) => setPasswordFocus(false)}
                         />
@@ -103,18 +131,27 @@ const Login = () => {
                         <Label check>
                           <Input type="checkbox" />
                           <span className="form-check-sign" />I agree to the{' '}
-                          <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                          <a
+                            href="#pablo"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setTermsConditions(true);
+                            }}
+                          >
                             terms and conditions
                           </a>
                           .
                         </Label>
                       </FormGroup>
+                      <br />
+                      <FormGroup>
+                        <Button className="btn-round" color="primary" size="lg">
+                          Login
+                        </Button>
+                      </FormGroup>
                     </Form>
                   </CardBody>
                   <CardFooter>
-                    <Button className="btn-round" color="primary" size="lg">
-                      Login
-                    </Button>
                     <a
                       className="btn btn-round"
                       color="secondary"

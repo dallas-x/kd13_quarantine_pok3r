@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from '@reach/router';
+import { useOktaAuth } from '@okta/okta-react';
+import { Link } from 'react-router-dom';
 import {
   Button,
   Collapse,
@@ -18,6 +19,7 @@ const Navi = () => {
   const [collapseOpen, setCollapseOpen] = useState(false);
   const [collapseOut, setCollapseOut] = useState('');
   const [color, setColor] = useState('navbar-transparent');
+  const { oktaAuth } = useOktaAuth();
 
   const changeColor = () => {
     if (document.documentElement.scrollTop > 99 || document.body.scrollTop > 99) {
@@ -143,9 +145,15 @@ const Navi = () => {
               </Button>
             </NavItem>
             <NavItem>
-              <NavLink tag={Link} to="/login">
-                Login
-              </NavLink>
+              {oktaAuth.isAuthenticated ? (
+                <NavLink tag={Link} to="/login">
+                  Login
+                </NavLink>
+              ) : (
+                <NavLink tag={Link} to="/logout">
+                  Logout
+                </NavLink>
+              )}
             </NavItem>
             <NavItem>
               <NavLink href="https://support.sheldyn.io" target="_blank">
