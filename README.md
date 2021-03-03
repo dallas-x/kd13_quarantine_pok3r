@@ -32,7 +32,7 @@
     ├── .eslintrc             # Code Rules Please Follow
     ├── .babelrc              # Compile Rules
     ├── package.json          # Project Dependencies
-    └── README.md             # Please Leave if you don't know what this is
+    └── .proxyrc              # Proxy configuration if running server and UI on same instance
 
 ## Developing
 
