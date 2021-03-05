@@ -1,6 +1,6 @@
 {
   "name": "quaratine_poker",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Take Payments, register users, and manage poker games",
   "main": "src/App.js",
   "author": "Sheldyn",

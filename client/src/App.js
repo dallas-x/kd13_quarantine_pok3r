@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter as Router, Route, useHistory } from 'react-router-dom';
-import { Security, SecureRoute, LoginCallback } from '@okta/okta-react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Security, LoginCallback } from '@okta/okta-react';
 import { OktaAuth } from '@okta/okta-auth-js';
 // rename example.app.config.js
 import config from './app.config.js';
