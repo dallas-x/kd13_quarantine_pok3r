@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useOktaAuth } from '@okta/okta-react';
+import { useOktaAuth, withOktaAuth } from '@okta/okta-react';
 import classnames from 'classnames';
 import purpleBlock from 'url:../assets/img/square-purple-1.png';
 // reactstrap components
@@ -25,7 +25,7 @@ import {
 import { Link } from '@reach/router';
 
 const Login = () => {
-  const { oktaAuth } = useOktaAuth();
+  const { oktaAuth, authState } = useOktaAuth();
   const [squares1to6, setSquares1to6] = useState('');
   const [squares7and8, setSquares7and8] = useState('');
   const [emailFocus, setEmailFocus] = useState(false);
@@ -35,6 +35,7 @@ const Login = () => {
   const [sessionToken, setSessionToken] = useState('');
   const [error, setError] = useState('');
   const [termsConditions, setTermsConditions] = useState(false);
+  const [readTerms, setReadTerms] = useState(false);
 
   useEffect(() => {
     document.body.classList.toggle('register-page');
@@ -55,17 +56,21 @@ const Login = () => {
       'perspective(500px) rotateY(' + posX * 0.02 + 'deg) rotateX(' + posY * -0.02 + 'deg)',
     );
   };
-  const handleLogin = () => {
+  const handleLogin = (username, password) => {
+    setPassword('');
     oktaAuth
       .signInWithCredentials({ username, password })
-      .then((res) => {
-        const sessionToken = res.sessionToken;
-        setSessionToken(sessionToken);
-        oktaAuth.signInWithRedirect({ sessionToken });
+      .then((transaction) => {
+        if (transaction.status === 'SUCCESS') {
+          setUsername('');
+          const sessionToken = transaction.sessionToken;
+          setSessionToken(sessionToken);
+          // sessionToken is a one-use token, so make sure this is only called once
+          oktaAuth.signInWithRedirect({ sessionToken });
+        }
       })
       .catch((err) => {
         setError({ error: err.message });
-        console.error(err);
       });
   };
   return (
@@ -104,6 +109,7 @@ const Login = () => {
                         <Input
                           placeholder="Email"
                           type="text"
+                          value={username}
                           onChange={(e) => setUsername(e.target.value)}
                           onFocus={(e) => setEmailFocus(true)}
                           onBlur={(e) => setEmailFocus(false)}
@@ -122,6 +128,7 @@ const Login = () => {
                         <Input
                           placeholder="Password"
                           type="password"
+                          value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           onFocus={(e) => setPasswordFocus(true)}
                           onBlur={(e) => setPasswordFocus(false)}
@@ -129,13 +136,19 @@ const Login = () => {
                       </InputGroup>
                       <FormGroup check className="text-left">
                         <Label check>
-                          <Input type="checkbox" />
+                          <Input
+                            type="checkbox"
+                            checked={termsConditions}
+                            onChange={(e) => {
+                              setTermsConditions(e.target.checked);
+                            }}
+                          />
                           <span className="form-check-sign" />I agree to the{' '}
                           <a
-                            href="#pablo"
+                            href="https://github.com/k1ddarkn3ss/kd13_quarantine_pok3r/blob/main/DOCS/Rules/TERMS_OF_USE.MD"
                             onClick={(e) => {
                               e.preventDefault();
-                              setTermsConditions(true);
+                              setReadTerms(true);
                             }}
                           >
                             terms and conditions
@@ -145,7 +158,12 @@ const Login = () => {
                       </FormGroup>
                       <br />
                       <FormGroup>
-                        <Button className="btn-round" color="primary" size="lg">
+                        <Button
+                          disabled={!termsConditions}
+                          className="btn-round"
+                          color="primary"
+                          size="lg"
+                        >
                           Login
                         </Button>
                       </FormGroup>
@@ -179,4 +197,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withOktaAuth(Login);
