@@ -5,7 +5,8 @@ import axios from 'axios';
 require('dotenv').config();
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
+// This was pulled from a previous project as boilerplate
+// Don't use in production env
 module.exports = function localStrategy() {
   passport.use(
     new Strategy(

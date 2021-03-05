@@ -1,11 +1,11 @@
 import passport from 'passport';
 
-require('./strategies/local.strategy')();
+require('./strategies/okta.strategy')();
 
 const passportConfig = (app) => {
   app.use(passport.initialize());
   app.use(passport.session());
-  // sotres user to session
+  // stores user to session
   passport.serializeUser((user, done) => {
     done(null, user);
   });

@@ -1,30 +1,40 @@
+import path from 'path';
 import sqlite3 from 'sqlite3';
+const dbloc = path.dirname(require.main.filename);
 
-const db = new sqlite3.Database('./api/src/db/stats.db', (err) => {
-  if (err) {
-    throw new Error(err);
-  }
-});
-
-export default function createTables() {
-  db.run(`CREATE TABLE if not exists
-          "playerStats" ( "Rank", "Player_ID" type UNIQUE, "Player", "Score", "TPP", "Games_Played")`);
-  db.run(`CREATE TABLE if not exists
-          "gameStats" ( "Total_Games", "TPP")`);
-}
-
-const selectItem = (item) => {
-  return new Promise((resolve, reject) => {
-    db.all(`SELECT distinct ${item || '*'} FROM playerStats`, (err, rows) => {
-      if (err) {
-        reject('empty');
-      }
-      resolve(rows.map((player) => player.Player_ID));
-    });
+const openDB = () => {
+  return new sqlite3.Database(path.join(dbloc, '/db/main.db'), (err_opening_db) => {
+    if (err_opening_db) {
+      throw new Error(err_opening_db);
+    }
   });
 };
 
-const upsertPlayers = (Players, tpp) => {
+export default async function createTables() {
+  const db = await openDB();
+  await db.run(`CREATE TABLE if not exists
+          "playerStats" ( "Rank", "Player_ID" type UNIQUE, "Player", "Score", "TPP", "Games_Played")`);
+  await db.run(`CREATE TABLE if not exists
+          "gameStats" ( "Total_Games", "TPP")`);
+  db.close();
+}
+
+const selectStats = async (item) => {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT ${item || '*'} FROM playerStats`, (err, rows) => {
+      if (err) {
+        reject({ status: 500, reason: 'Failed to get players' });
+      }
+      let data;
+      item ? (data = rows.map((player) => player[item])) : (data = rows);
+      resolve({ status: 200, data: data });
+    }).close();
+  });
+};
+
+const upsertPlayers = async (Players, tpp) => {
+  const db = await openDB();
   return new Promise((resolve, reject) => {
     let template = Players.map(
       (player) =>
@@ -40,44 +50,25 @@ SET Score = Score+excluded.Score, Games_Played=Games_Played+1, TPP=TPP+excluded.
       } else {
         reject({ status: 1, reason: upsert_error });
       }
-    });
+    }).close();
   });
 };
 
-// Legacy Do not use: Please use upsertPlayers!
-const addPlayers = (Players, tpp) => {
-  return new Promise((resolve, reject) => {
-    let template = Players.map(
-      (player) =>
-        `(${player.Rank},"${player.Player_ID}","${player.Player}",${player.Score},${tpp}, 1)`,
-    ).join(',');
-    const addSTMT = `INSERT into playerStats(Rank, Player_ID, Player, Score, TPP, Games_Played) VALUES ${template}`;
-
-    db.run(addSTMT, function (add_players_error) {
-      if (!add_players_error) {
-        resolve({ status: 0, reason: 'Players were added to DB' });
-      } else {
-        reject({ status: 1, reason: add_players_error });
-      }
-    });
-  });
-};
-
-const resetPlayers = () => {
+const resetPlayers = async () => {
+  const db = openDB();
   return new Promise((resolve, reject) => {
     db.run('DELETE FROM playerStats', (failed_to_delete_error) => {
       if (failed_to_delete_error) {
         reject({ status: 1, reason: failed_to_delete_error });
       }
       resolve({ status: 0, reason: 'poker stats deleted!' });
-    });
+    }).close();
   });
 };
 
 module.exports = {
   createTables,
-  selectItem,
-  addPlayers,
+  selectStats,
   resetPlayers,
   upsertPlayers,
 };

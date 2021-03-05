@@ -1,16 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { useOktaAuth } from '@okta/okta-react';
 import Uploader from '../components/Uploader';
 import axios from 'axios';
 import Stats from '../components/Stats';
 import { Button, Container, Row, Col, Table } from 'reactstrap';
+import { Redirect } from 'react-router-dom';
 
 const Admin = () => {
+  const { authState } = useOktaAuth();
   const [stats, setStats] = useState([]);
 
   async function handleRefresh() {
     event.preventDefault();
     const Players = await axios
-      .get('/api/stats')
+      .get('/api/stats/get')
       .then((response) => {
         return response.data;
       })
@@ -26,9 +29,7 @@ const Admin = () => {
     const reset = await axios
       .get('/api/stats/reset')
       .then((response) => {
-        console.log(response.data);
         if (response.data.status === 0) {
-          console.log(response.data.status);
           return [];
         } else {
           return stats;
@@ -39,7 +40,20 @@ const Admin = () => {
       });
     setStats(reset);
   }
-
+  if (authState.isPending) {
+    return (
+      <div className="profile-page">
+        <div className="wrapper">
+          <section className="section">
+            <Container>Loading...</Container>
+          </section>
+        </div>
+      </div>
+    );
+  }
+  if (!authState.isAuthenticated) {
+    return <Redirect to="login" />;
+  }
   return (
     <div className="profile-page">
       <div className="wrapper">
