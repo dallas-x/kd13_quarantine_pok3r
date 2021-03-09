@@ -1,14 +1,20 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
 import Uploader from '../components/Uploader';
 import axios from 'axios';
 import Stats from '../components/Stats';
-import { Button, Container, Row, Col, Table } from 'reactstrap';
+import { Button, Container, Row, Col, Table, Alert } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 
 const Admin = () => {
   const { authState } = useOktaAuth();
+  const [processAlert, setProcessAlert] = useState(false);
   const [stats, setStats] = useState([]);
+
+  const handleFileProcess = (processAlert) => {
+    setProcessAlert(processAlert);
+  };
+  const onDismiss = () => setProcessAlert(false);
 
   async function handleRefresh() {
     event.preventDefault();
@@ -60,6 +66,9 @@ const Admin = () => {
         <div className="space-110"></div>
         <div className="space-110"></div>
         <section className="section">
+          <Alert color="success" isOpen={processAlert} toggle={onDismiss}>
+            File was processed successfully.
+          </Alert>
           <Container>
             <Row className="justify-content-between">
               <Col className="col-md-6">
@@ -96,7 +105,7 @@ const Admin = () => {
               </Col>
             </Row>
             <Row>
-              <Uploader />
+              <Uploader onProcessFile={handleFileProcess} />
             </Row>
           </Container>
         </section>

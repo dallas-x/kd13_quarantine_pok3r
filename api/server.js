@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public/')));
 
-require('./src/config/passport')(app);
+// require('./src/config/passport')(app);
 
 app.use(uploadRouter);
 app.use(statsRouter);
