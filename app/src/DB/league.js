@@ -13,16 +13,17 @@ const uri = `mongodb+srv://${USERNAME}:${PASSWORD}@main.llmcq.mongodb.net/${PROJ
 function League() {
   const uri = `mongodb+srv://${USERNAME}:${PASSWORD}@main.llmcq.mongodb.net/${PROJ_NAME}?retryWrites=true&w=majority`;
   const loadStats = (Players, TTP, Lid) => {
-    Lid = 'GEO_SAM';
+    Lid = 'Dallas';
     return new Promise((resolve, reject) => {
       console.log(uri);
       const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       try {
         const Player_IDs = Players.map((player) => player.Player_ID);
-        const filter = `{ League_id: ${Lid}, Details.Players.Player_ID : { $in: [${Player_IDs}] } }`;
-        const update = `{ $set: { 'Details.Players': ${Players} } }`;
+        const filter = { League_id: Lid };
+        const update = { $set: { 'Details.Players': Players } };
         const options = { upsert: true };
         console.log(filter);
+        console.log(update);
         client.connect().then((client) => {
           const db = client.db(dbName);
           db.collection('league')
