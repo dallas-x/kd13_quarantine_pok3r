@@ -22,7 +22,7 @@ export default async function createTables() {
 const selectStats = async (item) => {
   const db = await openDB();
   return new Promise((resolve, reject) => {
-    db.all(`SELECT ${item || '*'} FROM playerStats`, (err, rows) => {
+    db.all(`SELECT ${item || '*'} FROM playerStats ORDER BY Score DESC`, (err, rows) => {
       if (err) {
         reject({ status: 500, reason: 'Failed to get players' });
       }

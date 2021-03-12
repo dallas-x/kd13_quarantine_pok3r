@@ -22,6 +22,7 @@ class Uploader extends Component {
       (response) => {
         if (response.ok) {
           this.setState({ status: 'File Uploaded for Processing', loaded: true });
+          this.props.onProcessFile(true);
           console.log(response.body);
           return response.body.json();
         } else {
