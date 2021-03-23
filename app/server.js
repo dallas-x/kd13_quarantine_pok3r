@@ -6,7 +6,6 @@ import path from 'path';
 import database from './src/controllers/dbFunc';
 import uploadRouter from './src/routes/uploadRoute';
 import statsRouter from './src/routes/statsRoute';
-import testRouter from './src/routes/testRoute';
 const debug = require('debug')('app');
 
 dotenv.config();

@@ -104,10 +104,10 @@ function crudTest() {
     return new Promise((resolve, reject) => {
       const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       const players = [
-        { name: 'Devan', score: 10, id: 'blablablba' },
+        { name: 'George', score: 10, id: 'blablablba' },
         { name: 'Wayne', score: 100, id: 'koookooookooo' },
-        { name: 'Jhonny', score: 500, id: 'ass wipe' },
-        { name: 'David', score: 3, id: 'kooofuck face kooookooo' },
+        { name: 'Jhonny', score: 500, id: 'lajsigae' },
+        { name: 'David', score: 3, id: 'Testing' },
         { name: 'Dallas', score: 333333, id: 'the realist' },
       ];
       try {
