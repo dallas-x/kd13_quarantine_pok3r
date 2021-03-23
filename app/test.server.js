@@ -40,11 +40,12 @@ async function main() {
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
   await client.connect();
   await crudTest.create();
+  await crudTest.Upsert();
   const results = await crudTest.loadData(data);
   const getItem = await crudTest.get({ name: { $in: ['Roundtable pizza', 'Mikes pizza'] } });
   debug(results);
   debug(getItem);
-  await client.db('pok3r-testing').dropCollection('Pizzas');
+  // await client.db('pok3r-testing').dropCollection('Pizzas');
   client.close();
 }
 

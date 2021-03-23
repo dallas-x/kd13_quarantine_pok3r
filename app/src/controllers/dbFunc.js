@@ -40,10 +40,14 @@ const upsertPlayers = async (Players, tpp) => {
       (player) =>
         `(${player.Rank},"${player.Player_ID}","${player.Player}",${player.Score},${tpp}, 1)`,
     ).join(',');
+
     let stmt = `INSERT INTO playerStats (Rank, Player_ID, Player, Score, TPP, Games_Played) 
-VALUES ${template}
-ON CONFLICT(Player_ID) DO UPDATE 
-SET Score = Score+excluded.Score, Games_Played=Games_Played+1, TPP=TPP+excluded.TPP`;
+                VALUES ${template}
+                ON CONFLICT(Player_ID) DO UPDATE 
+                SET Score = Score+excluded.Score,
+                            Games_Played=Games_Played+1,
+                            TPP=TPP+excluded.TPP`;
+
     db.run(stmt, function (upsert_error) {
       if (!upsert_error) {
         resolve({ status: 0, reason: 'Players were udpated in DB' });
