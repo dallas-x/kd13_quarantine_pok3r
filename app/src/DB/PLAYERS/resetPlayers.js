@@ -12,8 +12,10 @@ const resetPlayers = async () => {
     try {
       client.connect().then((client) => {
         const db = client.db(dbName);
-        db.collection('Players').updateMany({}, { $set: { Score: 0, Rank: 0 } }, (err, results) =>
-          resolve(results),
+        db.collection('Players').updateMany(
+          {},
+          { $set: { Score: 0, Rank: 0, TPP: 0 } },
+          (err, results) => resolve(results),
         );
       });
     } catch {

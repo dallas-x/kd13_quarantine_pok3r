@@ -1,5 +1,6 @@
 import express from 'express';
 import updatePlayers from '../DB/PLAYERS/updatePlayers';
+import authenticationRequired from '../auth/jwtVerifier';
 
 const uploadRouter = express.Router();
 
@@ -8,7 +9,7 @@ uploadRouter
   .get((req, res) => {
     res.send('success');
   })
-  .post((req, res) => {
+  .post(authenticationRequired, (req, res) => {
     let Players = req.body;
     let TPP = Players.length;
     let results = Players.map(({ data }) => {
@@ -21,7 +22,7 @@ uploadRouter
         TPP: TPP,
       };
     });
-    updatePlayers(results)
+    updatePlayers(results, TPP)
       .then((response) => {
         res.sendStatus(200);
       })

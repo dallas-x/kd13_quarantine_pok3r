@@ -1,10 +1,11 @@
 import express from 'express';
 import getPlayers from '../DB/PLAYERS/getPlayers';
 import resetPlayers from '../DB/PLAYERS/resetPlayers';
+import authenticationRequired from '../auth/jwtVerifier';
 
 const statsRouter = express.Router();
 
-statsRouter.route('/players/get').get((req, res) => {
+statsRouter.route('/players/get').get(authenticationRequired, (req, res) => {
   getPlayers()
     .then((response) => {
       response.status === 200
@@ -20,7 +21,7 @@ statsRouter.route('/players/get').get((req, res) => {
     });
 });
 
-statsRouter.route('/players/reset').get((req, res) => {
+statsRouter.route('/players/reset').get(authenticationRequired, (req, res) => {
   resetPlayers()
     .then((response) => {
       response.result.ok === 1 ? res.json({ status: 200 }) : res.json({ status: 500 });

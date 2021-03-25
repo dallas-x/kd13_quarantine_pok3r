@@ -13,7 +13,7 @@ const Admin = () => {
 
   useEffect(() => {
     handleRefresh();
-  }, [processAlert, setProcessAlert]);
+  }, [stats, processAlert, setProcessAlert]);
 
   const handleFileProcess = (processAlert) => {
     setProcessAlert(processAlert);
@@ -22,7 +22,11 @@ const Admin = () => {
 
   async function handleRefresh() {
     const Players = await axios
-      .get('/api/players/get')
+      .get('/api/players/get', {
+        headers: {
+          Authorization: authState.accessToken.accessToken,
+        },
+      })
       .then((response) => {
         return response.data;
       })
@@ -34,7 +38,11 @@ const Admin = () => {
 
   async function handleReset() {
     await axios
-      .get('/api/players/reset')
+      .get('/api/players/reset', {
+        headers: {
+          Authorization: authState.accessToken.accessToken,
+        },
+      })
       .then((response) => {
         if (response.data.status == 200) {
           handleRefresh();
@@ -82,7 +90,10 @@ const Admin = () => {
               </Col>
             </Row>
             <Row>
-              <Uploader onProcessFile={handleFileProcess} />
+              <Uploader
+                accessToken={authState.accessToken.accessToken}
+                onProcessFile={handleFileProcess}
+              />
             </Row>
             <br />
             <Row>

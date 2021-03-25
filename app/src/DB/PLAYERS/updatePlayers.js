@@ -5,7 +5,7 @@ const PASSWORD = process.env.MONGO_TEST_PASSWORD;
 const USERNAME = process.env.MONGO_TEST_USERNAME;
 const dbName = 'kd13-testing';
 
-const updatePlayers = (Players) => {
+const updatePlayers = (Players, TPP) => {
   const uri = `mongodb+srv://${USERNAME}:${PASSWORD}@main.llmcq.mongodb.net/kd13-testing?retryWrites=true&w=majority`;
   return new Promise((resolve, reject) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -20,8 +20,9 @@ const updatePlayers = (Players) => {
                 Player_ID: player.Player_ID,
                 Player: player.Player,
                 Rank: player.Rank,
+                TPP: 0,
               },
-              $inc: { Score: player.Score, Games_Played: 1, TPP: player.TPP },
+              $inc: { Score: player.Score, Games_Played: 1, TPP: TPP },
             },
             { upsert: true, multi: true },
           );

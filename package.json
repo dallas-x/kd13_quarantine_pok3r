@@ -9,7 +9,7 @@
     "dev": "parcel serve app/client/src/index.html",
     "serve": "nodemon --exec DEBUG=app:* babel-node app/server.js",
     "test-serve": "nodemon --exec DEBUG=app babel-node app/test.server.js",
-    "build-app": "parcel build client/src/index.html --dist-dir client/dist --public-url ./",
+    "build-app": "parcel build app/client/src/index.html --dist-dir client/dist --public-url ./",
     "lint-app": "elint \"src/**/*.{js,jsx}\" --quiet",
     "dev:mock": "cross-env PET_MOCK=mock npm run dev"
   },
@@ -38,6 +38,7 @@
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^11.2.0",
     "@emotion/core": "^11.0.0",
+    "@okta/jwt-verifier": "^2.0.1",
     "@okta/oidc-middleware": "^4.0.3",
     "@okta/okta-auth-js": "^4.7.1",
     "@okta/okta-react": "^4.1.0",
@@ -52,9 +53,6 @@
     "njwt": "^1.0.0",
     "nouislider": "^14.6.3",
     "papaparse": "^5.3.0",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "passport-okta-oauth": "^0.0.1",
     "perfect-scrollbar": "^1.5.0",
     "react": "15.x || 16.x || 16.4.0-alpha.0911da3",
     "react-chartjs-2": "^2.11.1",
@@ -62,7 +60,6 @@
     "react-papaparse": "^3.11.1",
     "react-router-dom": "^5.2.0",
     "reactstrap": "^8.9.0",
-    "sqlite3": "^5.0.2",
     "web-vitals": "^1.1.0"
   },
   "browserslist": {
