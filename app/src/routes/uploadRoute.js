@@ -1,6 +1,5 @@
 import express from 'express';
-import { updatePlayersStats } from '../controllers/processGame';
-import updatePlayers from '../DB/updatePlayers';
+import updatePlayers from '../DB/PLAYERS/updatePlayers';
 
 const uploadRouter = express.Router();
 
@@ -22,8 +21,7 @@ uploadRouter
         TPP: TPP,
       };
     });
-    updatePlayers(results);
-    updatePlayersStats(results)
+    updatePlayers(results)
       .then((response) => {
         res.sendStatus(200);
       })
