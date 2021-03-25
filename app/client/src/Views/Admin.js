@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
 import Uploader from '../components/Uploader';
 import axios from 'axios';
@@ -11,9 +11,12 @@ const Admin = () => {
   const [processAlert, setProcessAlert] = useState(false);
   const [stats, setStats] = useState([]);
 
+  useEffect(() => {
+    handleRefresh();
+  }, [processAlert, setProcessAlert]);
+
   const handleFileProcess = (processAlert) => {
     setProcessAlert(processAlert);
-    handleRefresh();
   };
   const onDismiss = () => setProcessAlert(false);
 
@@ -67,45 +70,6 @@ const Admin = () => {
           <Alert color="success" isOpen={processAlert} toggle={onDismiss}>
             File was processed successfully.
           </Alert>
-          <Container>
-            <Row className="justify-content-between">
-              <Col className="col-md-6">
-                <h1>Admin Section</h1>
-              </Col>
-              <Col className="col-md-5">
-                <h1 className="profile-title text-left">Data Refresh</h1>
-                <h5 className="text-on-back">A0.2</h5>
-                <div className="profile-description">
-                  <p className="text-alt">This will refresh the table below</p>
-                  <p className="text-alt">
-                    Please make all feature request or report bugs by using the
-                    &ldquo;Feedback?&ldquo; button below. Below are current items for the next
-                    sprint.
-                  </p>
-                  <ul>
-                    <li>Move upload function to Modal(pop-up window)</li>
-                    <li>Stats Table automatically updates</li>
-                    <li>Stats Table to be moved to main page</li>
-                    <li>Implement Auth, login, register pages</li>
-                  </ul>
-                </div>
-                <div className="btn-wrapper">
-                  <a
-                    href="https://github.com/k1ddarkn3ss/kd13_quarantine_pok3r/issues"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-primary mt-3"
-                  >
-                    <i className="tim-icons icon-satisfied" />
-                    Feedback
-                  </a>
-                </div>
-              </Col>
-            </Row>
-            <Row>
-              <Uploader onProcessFile={handleFileProcess} />
-            </Row>
-          </Container>
         </section>
         <div className="space-110"></div>
         <section className="section">
@@ -117,14 +81,25 @@ const Admin = () => {
                 <h5 className="text-on-back">0</h5>
               </Col>
             </Row>
-            <div className="btn-wrapper">
-              <Button onClick={handleRefresh} className="btn-simple" color="warning">
-                <i className="tim-icons icon-refresh-01" /> Refresh
-              </Button>
-              <Button onClick={handleReset} className="btn-simple" color="danger">
-                <i className="tim-icons icon-trash-simple" /> Reset
-              </Button>
-            </div>
+            <Row>
+              <Uploader onProcessFile={handleFileProcess} />
+            </Row>
+            <br />
+            <Row>
+              <Col>
+                <div className="btn-wrapper">
+                  <Button onClick={handleRefresh} className="btn-simple" color="success">
+                    <i className="tim-icons icon-refresh-02" /> Refresh
+                  </Button>
+                  <Button onClick={handleReset} className="btn-simple" color="warning">
+                    <i className="tim-icons icon-refresh-01" /> Reset
+                  </Button>
+                  <Button onClick={handleReset} className="btn-simple" color="danger">
+                    <i className="tim-icons icon-trash-simple" /> Delete
+                  </Button>
+                </div>
+              </Col>
+            </Row>
 
             <Table hover borderless>
               <thead className="bg-warning">

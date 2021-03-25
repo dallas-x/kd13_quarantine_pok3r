@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CSVReader } from 'react-papaparse';
-import { Row, Container } from 'reactstrap';
+import { Row, Container, Button } from 'reactstrap';
 import { Redirect } from '@reach/router';
 import ErrorBoundary from '../ErrorBoundary';
 
@@ -61,18 +61,17 @@ class Uploader extends Component {
       <Container>
         <Row>
           <CSVReader
+            type="button"
             onDrop={this.handleOnDrop}
             onError={this.handleOnError}
-            style={{}}
             config={{ header: true, delimiter: ';', skipEmptyLines: true }}
             addRemoveButton
             onRemoveFile={this.handleOnRemoveFile}
           >
-            <span>Drag & Drop CSV file here or click to upload.</span>
+            <Button className="btn-simple" color="info">
+              <i className="tim-icons icon-upload" /> Upload
+            </Button>
           </CSVReader>
-        </Row>
-        <Row>
-          <p>{this.state.status}</p>
         </Row>
       </Container>
     );
