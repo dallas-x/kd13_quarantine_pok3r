@@ -3,10 +3,8 @@ import express from 'express';
 import chalk from 'chalk';
 import cors from 'cors';
 import path from 'path';
-import database from './src/controllers/dbFunc';
 import uploadRouter from './src/routes/uploadRoute';
 import statsRouter from './src/routes/statsRoute';
-import testRouter from './src/routes/testRoute';
 const debug = require('debug')('app');
 
 dotenv.config();
@@ -26,8 +24,6 @@ app.use(statsRouter);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + 'client/dist/index.html'));
 });
-
-database.createTables();
 
 app.listen(port, (err) => {
   debug(`running server on port ${chalk.green(port)}`);

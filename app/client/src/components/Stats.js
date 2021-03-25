@@ -17,6 +17,7 @@ const Stats = ({ Players }) => {
             <td className="text-center">{player.Player_ID}</td>
             <td className="text-right">{player.Player}</td>
             <td className="text-right">{player.Score}</td>
+            <td className="text-right">{player.TPP}</td>
           </tr>
         ))
       )}

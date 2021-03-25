@@ -13,30 +13,29 @@ const Admin = () => {
 
   const handleFileProcess = (processAlert) => {
     setProcessAlert(processAlert);
+    handleRefresh();
   };
   const onDismiss = () => setProcessAlert(false);
 
   async function handleRefresh() {
-    event.preventDefault();
     const Players = await axios
-      .get('/api/stats/get')
+      .get('/api/players/get')
       .then((response) => {
         return response.data;
       })
       .catch((error) => {
-        console.error(error);
         throw new Error(error);
       });
     setStats(Players || []);
   }
 
   async function handleReset() {
-    event.preventDefault();
-    const reset = await axios
-      .get('/api/stats/reset')
+    await axios
+      .get('/api/players/reset')
       .then((response) => {
-        if (response.data.status === 0) {
-          return [];
+        if (response.data.status == 200) {
+          handleRefresh();
+          return 'success';
         } else {
           return stats;
         }
@@ -44,7 +43,6 @@ const Admin = () => {
       .catch((error) => {
         throw new Error(error);
       });
-    setStats(reset);
   }
   if (authState.isPending) {
     return (
@@ -142,6 +140,9 @@ const Admin = () => {
                   </th>
                   <th className="text-right" scope="col">
                     Score
+                  </th>
+                  <th className="text-right" scope="col">
+                    Total
                   </th>
                 </tr>
               </thead>

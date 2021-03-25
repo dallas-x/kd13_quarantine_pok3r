@@ -1,13 +1,14 @@
 import express from 'express';
-import { getStats } from '../controllers/processGame';
-import { resetPlayers } from '../controllers/dbFunc';
+import getPlayers from '../DB/PLAYERS/getPlayers';
+import resetPlayers from '../DB/PLAYERS/resetPlayers';
 
 const statsRouter = express.Router();
 
-statsRouter.route('/stats/get').get((req, res) => {
-  getStats()
+statsRouter.route('/players/get').get((req, res) => {
+  getPlayers()
     .then((response) => {
-      res.json(response);
+      if (response.status === 200) res.json(response.data);
+      res.json({ Players: [{ Player_ID: 0, Player: 'No Player Found', Score: 0 }] });
     })
     .catch((err) => {
       res.json({
@@ -18,10 +19,10 @@ statsRouter.route('/stats/get').get((req, res) => {
     });
 });
 
-statsRouter.route('/stats/reset').get((req, res) => {
+statsRouter.route('/players/reset').get((req, res) => {
   resetPlayers()
     .then((response) => {
-      res.json(response);
+      response.result.ok === 1 ? res.json({ status: 200 }) : res.json({ status: 500 });
     })
     .catch((err) => {
       res.json({ status: 1, reason: err });

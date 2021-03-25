@@ -3,10 +3,10 @@ dotenv.config();
 const { MongoClient, ObjectID } = require('mongodb');
 const PASSWORD = process.env.MONGO_TEST_PASSWORD;
 const USERNAME = process.env.MONGO_TEST_USERNAME;
-const dbName = 'pok3r-testing';
+const dbName = 'kd13-testing';
 
 function crudTest() {
-  const uri = `mongodb+srv://${USERNAME}:${PASSWORD}@main.llmcq.mongodb.net/pok3r-testing?retryWrites=true&w=majority`;
+  const uri = `mongodb+srv://${USERNAME}:${PASSWORD}@main.llmcq.mongodb.net/kd13-testing?retryWrites=true&w=majority`;
 
   const loadData = (data) => {
     return new Promise((resolve, reject) => {
@@ -84,7 +84,7 @@ function crudTest() {
         // Establish and verify connection
         client.connect().then((client) => {
           console.log(client);
-          client.db('pok3r-testing').createCollection('Pizzas', (err, results) => {
+          client.db('kd13-testing').createCollection('Pizzas', (err, results) => {
             if (err) {
               console.error(err);
             }
@@ -100,94 +100,39 @@ function crudTest() {
     });
   };
 
-  return { loadData, get, getById, create };
+  const Upsert = async () => {
+    return new Promise((resolve, reject) => {
+      const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      const players = [
+        { name: 'George', score: 10, id: 'blablablba' },
+        { name: 'Wayne', score: 100, id: 'koookooookooo' },
+        { name: 'Jhonny', score: 500, id: 'lajsigae' },
+        { name: 'David', score: 3, id: 'Testing' },
+        { name: 'Dallas', score: 333333, id: 'the realist' },
+      ];
+      try {
+        client.connect().then((client) => {
+          const db = client.db(dbName);
+          const results = players.map((player) => {
+            db.collection('Players').updateOne(
+              { Player_Name: player.name },
+              {
+                $setOnInsert: { Player_Name: player.name },
+                $inc: { Score: player.score },
+                $set: { id: player.id },
+              },
+              { upsert: true, multi: true },
+            );
+          });
+          resolve(results);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  };
+
+  return { loadData, get, getById, create, Upsert };
 }
-// const create = async () => {
-//   try {
-//     // Connect the client to the server
-
-//     // Establish and verify connection
-//     await client.db('admin').command({ ping: 1 });
-//     console.log('Connected successfully to server');
-//     client.db('pok3r-testing').createCollection('Pizza', (err, result) => {
-//       if (err) {
-//         console.error(err);
-//       }
-//       console.log("Kid's Pizza is NOW OPEN!");
-//     });
-//   } finally {
-//     // Ensures that the client will close when you finish/error
-//   }
-// };
-
-// const insert = async () => {
-//   try {
-//     // Connect the client to the server
-
-//     // Establish and verify connection
-//     await client.db('pok3r-testing').command({ ping: 1 });
-//     client
-//       .db('pok3r-testing')
-//       .collection('Pizza')
-//       .insertOne(pizzaDocument, (err, result) => {
-//         if (err) throw err;
-//         console.log('Pizza in the oven!');
-//       });
-//   } finally {
-//     // Ensures that the client will close when you finish/error
-//   }
-// };
-
-// const find = async () => {
-//   try {
-//     // Connect the client to the server
-
-//     // Establish and verify connection
-//     await client.db('pok3r-testing').command({ ping: 1 });
-//     client
-//       .db('pok3r-testing')
-//       .collection('Pizza')
-//       .find({})
-//       .toArray((err, result) => {
-//         if (err) throw err;
-//         console.log(result);
-//       });
-//   } finally {
-//     // Ensures that the client will close when you finish/error
-//   }
-// };
-
-// const findone = async () => {
-//   try {
-//     // Connect the client to the server
-//     const q = { toppings: 'San Marzano tomatoes' };
-//     // Establish and verify connection
-//     await client.db('pok3r-testing').command({ ping: 1 });
-//     client
-//       .db('pok3r-testing')
-//       .collection('Pizza')
-//       .find(q)
-//       .toArray((err, result) => {
-//         if (err) throw err;
-//         console.log(result);
-//       });
-//   } finally {
-//     // Ensures that the client will close when you finish/error
-//   }
-// };
-
-// const close = async () => {
-//   try {
-//     // Connect the client to the server
-
-//     // Establish and verify connection
-//     await client.db('pok3r-testing').command({ ping: 1 });
-//     client.db('pok3r-testing').dropCollection('Pizza');
-//     client.close();
-//   } finally {
-//     // Ensures that the client will close when you finish/error
-//     console.log('Pizza shop is closed!');
-//   }
-// };
 
 module.exports = crudTest();

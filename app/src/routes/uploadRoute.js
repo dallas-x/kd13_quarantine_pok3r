@@ -1,6 +1,5 @@
 import express from 'express';
-import { updatePlayersStats } from '../controllers/processGame';
-import league from '../DB/league';
+import updatePlayers from '../DB/PLAYERS/updatePlayers';
 
 const uploadRouter = express.Router();
 
@@ -11,19 +10,18 @@ uploadRouter
   })
   .post((req, res) => {
     let Players = req.body;
-    let TTP = Players.length;
+    let TPP = Players.length;
     let results = Players.map(({ data }) => {
-      let rScore = TTP - data.Rank;
+      let rScore = TPP - data.Rank;
       return {
         Player_ID: data.ID,
         Player: data.Player,
         Score: rScore,
         Rank: data.Rank,
-        TPP: TTP,
+        TPP: TPP,
       };
     });
-    league.loadStats(results);
-    updatePlayersStats(results)
+    updatePlayers(results)
       .then((response) => {
         res.sendStatus(200);
       })
