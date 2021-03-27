@@ -4,5 +4,6 @@
       "browsers": ["last 2 Chrome versions"]
     }
   }]],
-  "plugins": ["@babel/plugin-syntax-class-properties"]
+  "plugins": ["@babel/plugin-syntax-class-properties"],
+  "ignore": ["./node_modules"]
 }

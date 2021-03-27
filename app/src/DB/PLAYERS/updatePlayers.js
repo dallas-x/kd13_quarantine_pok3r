@@ -13,16 +13,16 @@ const updatePlayers = (Players, TPP) => {
       client.connect().then((client) => {
         const db = client.db(dbName);
         const results = Players.map((player) => {
+          console.log(player.Rank);
           db.collection('Players').updateOne(
             { Player_Name: player.Player_ID },
             {
               $setOnInsert: {
                 Player_ID: player.Player_ID,
                 Player: player.Player,
-                Rank: player.Rank,
-                TPP: 0,
               },
               $inc: { Score: player.Score, Games_Played: 1, TPP: TPP },
+              $set: { Rank: player.Rank },
             },
             { upsert: true, multi: true },
           );
