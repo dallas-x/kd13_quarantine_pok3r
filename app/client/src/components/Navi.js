@@ -58,11 +58,11 @@ const Navi = () => {
         <Container>
           <div className="navbar-translate">
             <NavbarBrand to="/" id="navbar-brand" tag={Link}>
-              <span>Quarantine • </span>
-              Poker
+              <span>kd13 • </span>
+              experiment9
             </NavbarBrand>
             <UncontrolledTooltip placement="bottom" target="navbar-brand">
-              Designed and Coded by Dallas
+              Designed and Coded by K1d Darkn3ss
             </UncontrolledTooltip>
             <button
               aria-expanded={collapseOpen}
@@ -137,13 +137,8 @@ const Navi = () => {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <Button
-                  className="nav-link d-none d-lg-block"
-                  color="primary"
-                  target="_blank"
-                  href="https://sheldyn.io"
-                >
-                  <i className="tim-icons icon-coins" /> High Roller
+                <Button className="nav-link d-none d-lg-block" color="primary" tag={Link} to="/low">
+                  <i className="tim-icons icon-chart-bar-32" /> Dashboard
                 </Button>
               </NavItem>
               <NavItem>
@@ -153,7 +148,7 @@ const Navi = () => {
                   tag={Link}
                   to="/admin"
                 >
-                  <i className="tim-icons icon-planet" /> Admin
+                  <i className="tim-icons icon-components" /> Console
                 </Button>
               </NavItem>
               <NavItem>
@@ -161,13 +156,14 @@ const Navi = () => {
                   <NavLink onClick={logout}>Logout</NavLink>
                 ) : (
                   <NavLink tag={Link} to="/login">
+                    <i className="tim-icons icon-badge" />
                     Login
                   </NavLink>
                 )}
               </NavItem>
               <NavItem>
                 <NavLink href="https://support.sheldyn.io" target="_blank">
-                  Have an issue?
+                  <i className="tim-icons icon-alert-circle-exc" /> Have an issue?
                 </NavLink>
               </NavItem>
             </Nav>

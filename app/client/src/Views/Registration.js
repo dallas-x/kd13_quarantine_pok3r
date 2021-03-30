@@ -129,7 +129,7 @@ const Registration = () => {
                     </Form>
                   </CardBody>
                   <CardFooter>
-                    <Button className="btn-round" color="primary" size="lg">
+                    <Button disabled="true" className="btn-round" color="primary" size="lg">
                       Get Started
                     </Button>
                     <a
@@ -141,6 +141,7 @@ const Registration = () => {
                     >
                       Have an Account?
                     </a>
+                    <p>We are not accepting new accounts at this time!</p>
                   </CardFooter>
                 </Card>
               </Col>

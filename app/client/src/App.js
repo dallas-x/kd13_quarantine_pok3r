@@ -8,6 +8,8 @@ import config from './app.config.js';
 import Navi from './Components/Navi';
 import Home from './Views/Home';
 import Admin from './Views/Admin';
+import LowLimit from './Views/LowLimit';
+import HighRoller from './Views/HighRoller';
 import Registration from './Views/Registration';
 import Login from './Views/Login';
 
@@ -29,6 +31,8 @@ const App = () => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/admin" component={Admin} />
+          <Route path="/high" component={HighRoller} />
+          <Route path="/low" component={LowLimit} />
           <Route path="/registration" component={Registration} />
         </Switch>
         <Route path="/login" component={Login} />
