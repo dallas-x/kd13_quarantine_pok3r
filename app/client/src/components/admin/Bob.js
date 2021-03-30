@@ -16,7 +16,6 @@ const Bob = () => {
   const [bob, BobTable] = useReactiveTable({
     columns: col,
     data: players,
-    title: 'Best of the Best',
   });
   async function getPlayers() {
     const Players = await axios
@@ -53,9 +52,6 @@ const Bob = () => {
       <Row>
         <Col>
           <div className="btn-wrapper">
-            <Button onClick={getPlayers} className="btn-simple" color="success">
-              <i className="tim-icons icon-refresh-02" /> Refresh
-            </Button>
             <Button onClick="" className="btn-simple" color="warning">
               <i className="tim-icons icon-refresh-01" /> Reset
             </Button>
@@ -63,6 +59,7 @@ const Bob = () => {
         </Col>
       </Row>
       <br />
+
       <BobTable />
     </div>
   );

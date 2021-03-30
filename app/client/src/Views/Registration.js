@@ -28,7 +28,7 @@ const Registration = () => {
   const [squares7and8, setSquares7and8] = React.useState('');
   const [fullNameFocus, setFullNameFocus] = React.useState(false);
   const [emailFocus, setEmailFocus] = React.useState(false);
-  const [passwordFocus, setPasswordFocus] = React.useState(false);
+  const [referralFocus, setReferralFocus] = React.useState(false);
   useEffect(() => {
     document.body.classList.toggle('register-page');
     document.documentElement.addEventListener('mousemove', followCursor);
@@ -76,7 +76,7 @@ const Registration = () => {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          placeholder="Player ID"
+                          placeholder="League ID"
                           type="text"
                           onFocus={(e) => setFullNameFocus(true)}
                           onBlur={(e) => setFullNameFocus(false)}
@@ -101,7 +101,7 @@ const Registration = () => {
                       </InputGroup>
                       <InputGroup
                         className={classnames({
-                          'input-group-focus': passwordFocus,
+                          'input-group-focus': referralFocus,
                         })}
                       >
                         <InputGroupAddon addonType="prepend">
@@ -110,10 +110,10 @@ const Registration = () => {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          placeholder="Password"
-                          type="password"
-                          onFocus={(e) => setPasswordFocus(true)}
-                          onBlur={(e) => setPasswordFocus(false)}
+                          placeholder="Referral"
+                          type="text"
+                          onFocus={(e) => setReferralFocus(true)}
+                          onBlur={(e) => setReferralFocus(false)}
                         />
                       </InputGroup>
                       <FormGroup check className="text-left">

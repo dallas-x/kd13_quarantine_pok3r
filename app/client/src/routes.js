@@ -64,7 +64,7 @@ const routes = [
   {
     path: '/messages',
     name: 'Messages',
-    icon: 'tim-icons icon-send',
+    icon: 'tim-icons icon-chat-33',
     component: Messages,
     layout: '/admin',
   },
@@ -77,9 +77,9 @@ const routes = [
   },
   {
     path: '/upload',
-    name: 'UploadData',
+    name: 'Upload Data',
     component: UploadData,
-    icon: 'tim-icons icon-settings',
+    icon: 'tim-icons icon-cloud-upload-94',
     layout: '/admin',
   },
 ];

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { Table } from 'reactstrap';
 
-const useReactTable = ({ columns, data, title }) => {
+const useReactTable = ({ columns, data }) => {
   const [state, setState] = useState(data);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
@@ -13,7 +13,6 @@ const useReactTable = ({ columns, data, title }) => {
   );
   const table = () => (
     <div>
-      <h1>{title}</h1>
       <div className="ReactTable -striped -highlight">
         <Table {...getTableProps()} className="rt-table">
           <thead className="rt-thead bg-warning -header">
@@ -42,9 +41,9 @@ const useReactTable = ({ columns, data, title }) => {
                       <td
                         key={i}
                         {...cell.getCellProps()}
-                        className={cell.column.Header === 'Score' ? 'rt-td text-right' : 'rt-td'}
+                        className={i === columns.length - 1 ? 'rt-td text-right' : 'rt-td'}
                       >
-                        {console.log(cell.column.Header)}
+                        {' '}
                         {cell.render('Cell')}
                       </td>
                     );

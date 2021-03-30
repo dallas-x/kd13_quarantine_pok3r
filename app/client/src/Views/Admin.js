@@ -4,7 +4,7 @@ import Sidebar from '../Components/Navigation/Sidebar';
 import { Container } from 'reactstrap';
 import { Redirect, Route, useLocation, Switch } from 'react-router-dom';
 import routes from '../routes';
-import logo from 'url:../assets/logo/FB1.jpg';
+import logo from 'url:../assets/logo/LogoMakr-81cC63.png';
 
 const Admin = () => {
   const { authState } = useOktaAuth();
