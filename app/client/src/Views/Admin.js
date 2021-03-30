@@ -1,77 +1,34 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useRef } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
-import Uploader from '../Components/Uploader';
 import Sidebar from '../Components/Navigation/Sidebar';
-import axios from 'axios';
-import Stats from '../Components/Stats';
-import { Button, Container, Row, Col, Table, Alert } from 'reactstrap';
-import { Redirect, Route } from 'react-router-dom';
+import { Container } from 'reactstrap';
+import { Redirect, Route, useLocation, Switch } from 'react-router-dom';
 import routes from '../routes';
+import logo from 'url:../assets/logo/FB1.jpg';
 
 const Admin = () => {
   const { authState } = useOktaAuth();
-  const [processAlert, setProcessAlert] = useState(false);
-  const [stats, setStats] = useState([{ Players: [{ Player: 'Not Found', Score: 0 }] }]);
-  const [col, setCol] = useState([
-    { Header: '#', accessor: 'Rank' },
-    { Header: 'ID', accessor: 'Player_ID' },
-    { Header: 'Name', accessor: 'Player' },
-    { Header: 'Score', accessor: 'Score' },
-  ]);
+  const [activeColor, setActiveColor] = useState('blue');
+  const [sidebarMini, setSidebarMini] = useState(true);
+  const [opacity, setOpacity] = useState(0);
+  const [sidebarOpened, setSidebarOpened] = useState(false);
+  const mainPanelRef = useRef(null);
+  const notificationAlertRef = useRef(null);
+  const location = useLocation();
 
   const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.collapse) {
-        return getRoutes(prop.views);
+    return routes.map((route, key) => {
+      if (route.collapse) {
+        return getRoutes(route.views);
       }
-      if (prop.layout === '/admin') {
-        return <Route path={prop.layout + prop.path} component={prop.component} key={key} />;
+      if (route.layout === '/admin') {
+        return <Route path={route.layout + route.path} component={route.component} key={key} />;
       } else {
         return null;
       }
     });
   };
 
-  const handleFileProcess = (processAlert) => {
-    setProcessAlert(processAlert);
-  };
-  const onDismiss = () => setProcessAlert(false);
-
-  async function handleRefresh() {
-    const Players = await axios
-      .get('/api/players/get', {
-        headers: {
-          Authorization: authState.accessToken.accessToken,
-        },
-      })
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
-    setStats(Players);
-  }
-
-  async function handleReset() {
-    await axios
-      .get('/api/players/reset', {
-        headers: {
-          Authorization: authState.accessToken.accessToken,
-        },
-      })
-      .then((response) => {
-        if (response.data.status == 200) {
-          handleRefresh();
-          return 'success';
-        } else {
-          return stats;
-        }
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
-  }
   if (authState.isPending) {
     return (
       <div className="profile-page">
@@ -84,41 +41,28 @@ const Admin = () => {
     );
   }
   if (!authState.isAuthenticated) {
-    return <Redirect to="login" />;
+    return <Redirect to="/login" />;
   }
-  return (
-    <div className="main-panel">
-      <Sidebar />
-      <div className="content">
-        <div className="wrapper">
-          <Row>
-            <Uploader
-              accessToken={authState.accessToken.accessToken}
-              onProcessFile={handleFileProcess}
-            />
-          </Row>
-          <br />
-          <h2> BOB </h2>
-          <Row>
-            <Col>
-              <div className="btn-wrapper">
-                <Button onClick={handleRefresh} className="btn-simple" color="success">
-                  <i className="tim-icons icon-refresh-02" /> Refresh
-                </Button>
-                <Button onClick={handleReset} className="btn-simple" color="warning">
-                  <i className="tim-icons icon-refresh-01" /> Reset
-                </Button>
-                <Button onClick={handleReset} className="btn-simple" color="danger">
-                  <i className="tim-icons icon-trash-simple" /> Delete
-                </Button>
-              </div>
-            </Col>
-          </Row>
-          <Stats columns={col} data={stats} />
+  if (authState.isAuthenticated)
+    return (
+      <div className="wrapper">
+        <Sidebar
+          routes={routes}
+          activeColor={activeColor}
+          logo={{
+            outterLink: '/admin',
+            text: 'Admin Console',
+            imgSrc: logo,
+          }}
+        />
+        <div className="main-panel" ref={mainPanelRef} data={activeColor}>
+          <Switch>
+            {getRoutes(routes)}
+            <Redirect from="*" to="/admin/dashboard" />
+          </Switch>
         </div>
       </div>
-    </div>
-  );
+    );
 };
 
 export default Admin;

@@ -13,7 +13,6 @@ const updatePlayers = (Players, TPP) => {
       client.connect().then((client) => {
         const db = client.db(dbName);
         const results = Players.map((player) => {
-          console.log(player.Rank);
           db.collection('Players').updateOne(
             { Player_Name: player.Player_ID },
             {
