@@ -14,18 +14,20 @@ const app = express();
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'client/dist')));
+app.use(express.static(path.join(__dirname, '/client/dist')));
 
 app.use(uploadRouter);
 app.use(statsRouter);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + 'client/dist/index.html'));
-});
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname + '/client/dist/index.html'));
+// });
 
-app.listen(port, (err) => {
-  debug(`running server on port ${chalk.green(port)}`);
-  if (err) {
-    debug(`Error has accured ${err}`);
-  }
-});
+// app.listen(port, (err) => {
+//   debug(`running server on port ${chalk.green(port)}`);
+//   if (err) {
+//     debug(`Error has accured ${err}`);
+//   }
+// });
+
+module.exports = app;

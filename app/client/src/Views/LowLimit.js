@@ -5,7 +5,7 @@ import { Container } from 'reactstrap';
 
 const HighRoller = () => {
   return (
-    <div className="presentation-page">
+    <div className="index-page">
       <div className="wrapper">
         <div className="page-header header-filter">
           <div className="squares square1" />

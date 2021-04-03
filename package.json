@@ -7,9 +7,10 @@
   "private": true,
   "scripts": {
     "dev": "parcel serve app/client/src/index.html",
-    "serve": "nodemon --exec DEBUG=app:* babel-node app/server.js",
+    "serve-app": "parcel app/client/dist/index.html --open",
+    "serve": "nodemon --exec DEBUG=app:* babel-node bin/www",
     "test-serve": "nodemon --exec DEBUG=app babel-node app/test.server.js",
-    "build-app": "parcel build app/client/src/index.html --dist-dir client/dist --public-url ./",
+    "build-app": "parcel build app/client/src/index.html --dist-dir app/client/dist --public-url ./",
     "lint-app": "elint \"src/**/*.{js,jsx}\" --quiet",
     "dev:mock": "cross-env PET_MOCK=mock npm run dev"
   },
