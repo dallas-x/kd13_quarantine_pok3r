@@ -22,7 +22,6 @@ const App = () => {
     clientId: process.env.OKTA_REACT_CLIENTID,
     redirectUri: window.location.origin + process.env.REDIRECT_URI,
     onAuthRequired: onAuthRequired,
-    pkce: true,
   });
   return (
     <Router>
