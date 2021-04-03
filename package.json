@@ -6,9 +6,8 @@
   "license": "AGPL-1.0-or-later",
   "private": true,
   "scripts": {
-    "dev": "ENVIRONMENT=dev parcel serve src/index.html",
-    "prod": "parcel dist/index.html --open",
-    "build": "parcel build src/index.html --dist-dir dist/ --public-url ./",
+    "dev": "NODE_ENV=dev parcel serve src/index.html --open",
+    "build": "parcel build src/index.html --dist-dir dist/",
     "lint": "elint \"src/**/*.{js,jsx}\" --quiet"
   },
   "devDependencies": {
