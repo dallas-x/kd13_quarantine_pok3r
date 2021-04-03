@@ -1,6 +1,6 @@
 <div align="center">
     <a href="https://sheldyn.io">
-        <img src="https://github.com/k1ddarkn3ss/kd13_quarantine_pok3r/blob/main/client/src/assets/img/logo-poker.png">
+        <img src="https://github.com/k1ddarkn3ss/kd13_quarantine_pok3r/blob/main/src/assets/img/logo-poker.png">
     </a>
 </div>
 <div align="center">
