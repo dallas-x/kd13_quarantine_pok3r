@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { CSVReader } from 'react-papaparse';
 import { Row, Container, Button } from 'reactstrap';
-import { Redirect } from '@reach/router';
 import ErrorBoundary from './ErrorBoundary';
 
 const buttonRef = React.createRef();

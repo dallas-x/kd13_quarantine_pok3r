@@ -21,7 +21,7 @@ import {
   Row,
   Col,
 } from 'reactstrap';
-import { Link } from '@reach/router';
+import { Link } from 'react-router-dom';
 
 const Registration = () => {
   const [squares1to6, setSquares1to6] = React.useState('');

@@ -22,7 +22,7 @@ import {
   Row,
   Col,
 } from 'reactstrap';
-import { Link } from '@reach/router';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const { oktaAuth, authState } = useOktaAuth();
