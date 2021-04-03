@@ -6,13 +6,10 @@
   "license": "AGPL-1.0-or-later",
   "private": true,
   "scripts": {
-    "dev": "parcel serve app/client/src/index.html",
-    "serve-app": "parcel app/client/dist/index.html --open",
-    "serve": "nodemon --exec DEBUG=app:* babel-node bin/www",
-    "test-serve": "nodemon --exec DEBUG=app babel-node app/test.server.js",
-    "build-app": "parcel build app/client/src/index.html --dist-dir app/client/dist --public-url ./",
-    "lint-app": "elint \"src/**/*.{js,jsx}\" --quiet",
-    "dev:mock": "cross-env PET_MOCK=mock npm run dev"
+    "dev": "parcel serve src/index.html",
+    "prod": "parcel dist/index.html --open",
+    "build": "parcel build src/index.html --dist-dir dist/ --public-url ./",
+    "lint": "elint \"src/**/*.{js,jsx}\" --quiet"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

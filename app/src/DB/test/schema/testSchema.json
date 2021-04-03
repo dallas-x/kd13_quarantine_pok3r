@@ -1,9 +1,0 @@
-{
-  "Pizzas": [
-    {
-      "name": "STRING",
-      "shape": "STRING",
-      "toppings": ["STRING", "STRING", "STRING"]
-    }
-  ]
-}
