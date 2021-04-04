@@ -18,10 +18,11 @@ const Users = () => {
   });
 
   useEffect(() => {
+    console.log(authState.accessToken.accessToken);
     axios
       .get('https://testing-poker.herokuapp.com/players/get', {
         headers: {
-          Authorization: authState.accessToken.accessToken,
+          'x-sheldyn-Authorization': authState.accessToken.accessToken,
         },
       })
       .then((response) => {
