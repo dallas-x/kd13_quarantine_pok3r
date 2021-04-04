@@ -17,25 +17,10 @@ const Bob = () => {
     columns: col,
     data: players,
   });
-  async function getPlayers() {
-    const Players = await axios
-      .get('/api/players/get', {
-        headers: {
-          Authorization: authState.accessToken.accessToken,
-        },
-      })
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
-    setPlayers(Players);
-  }
 
   useEffect(() => {
     axios
-      .get('/api/players/get', {
+      .get('https://testing-poker.herokuapp.com/players/get', {
         headers: {
           Authorization: authState.accessToken.accessToken,
         },
