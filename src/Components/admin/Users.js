@@ -18,7 +18,6 @@ const Users = () => {
   });
 
   useEffect(() => {
-    console.log(authState.accessToken.accessToken);
     axios
       .get('https://testing-poker.herokuapp.com/players/get', {
         headers: {

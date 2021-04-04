@@ -16,7 +16,7 @@ class Uploader extends Component {
       body: JSON.stringify(file),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
-        Authorization: this.props.accessToken,
+        'x-sheldyn-Authorization': this.props.accessToken,
       },
     }).then(
       (response) => {
