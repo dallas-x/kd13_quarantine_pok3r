@@ -11,7 +11,7 @@ class Uploader extends Component {
   handleOnDrop = (file) => {
     console.log(file);
     console.log('---------------------------');
-    fetch('/api/upload', {
+    fetch('https://testing-poker.herokuapp.com/api/upload', {
       method: 'POST',
       body: JSON.stringify(file),
       headers: {
