@@ -6,7 +6,6 @@
 <div align="center">
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-crayons.svg)](https://forthebadge.com)
-[![Javascript](https://img.shields.io/badge/javascript%20-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)]()
 <br />
 [![Code Grade](https://www.code-inspector.com/project/19696/score/svg)](https://frontend.code-inspector.com/public/project/19696/kd13_quarantine_pok3r/dashboard)
 [![Open Source Love](https://firstcontributions.github.io/open-source-badges/badges/open-source-v1/open-source.svg)](https://github.com/firstcontributions/open-source-badges) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/k1ddarkn3ss/graphs/commit-activity) [![Website poker.kd13.dev](https://img.shields.io/website-up-down-green-red/http/poker.k1ddarkn3ss.dev.svg)](http://poker.k1ddarkn3ss.dev/) [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.png?v=103)](https://github.com/k1ddarkn3ss/kd13_quarantine_pok3r/blob/master/LICENSE)
@@ -49,11 +48,10 @@
 
 #### Built With
 
-- [Node JS](https://nodejs.org/en/)
-- [GraphQL](http://graphql.org)
-- [Express JS](https://expressjs.com/)
-- [Socket IO](https://socket.io/)
-- [React](https://reactjs.org/)
+- [![Javascript](https://img.shields.io/badge/javascript%20-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)]()
+- [![GraphQL](https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql)](http://graphql.org)
+- [![React](https://img.shields.io/badge/react%20-%2320232a.svg?&style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://reactjs.org/)
+- [![Bootstrap](https://img.shields.io/badge/bootstrap%20-%23563D7C.svg?&style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 
 #### Clone Project
 
