@@ -24,14 +24,11 @@
 ## Folder Structure
 
     .
-    ├── doc                   # Future Documentation
+    ├── docs                  # Future Documentation
     ├── dist                  # Build Folder
-    ├── api                   # NodeJS MongoDB and ExpressJS/Graphql server folder
     ├── src                   # React App - UI Front end logic
-    ├── .prettierrc           # Style Logic Please Follow
-    ├── .eslintrc             # Code Rules Please Follow
-    ├── .babelrc              # Compile Rules
-    ├── package.json          # Project Dependencies
+    |   ├── App.js            # Main App file
+    |   └── index.html.       # Entry Point
     └── .proxyrc              # Proxy configuration if running server and UI on same instance
 
 ## Developing
