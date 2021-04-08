@@ -1,13 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
 import Sidebar from '../Components/Navigation/Sidebar';
+import FixedPlugin from '../Components/Plugin/FixedPlugin';
 import { Container } from 'reactstrap';
+import NotificationAlert from 'react-notification-alert';
 import { Redirect, Route, useLocation, Switch } from 'react-router-dom';
 import routes from '../routes';
 import logo from 'url:../assets/logo/LogoMakr-81cC63.png';
 
 const Admin = () => {
-  const { authState } = useOktaAuth();
+  const { authState, oktaAuth } = useOktaAuth();
+  const [userInfo, setUserInfo] = useState(null);
   const [activeColor, setActiveColor] = useState('blue');
   const [sidebarMini, setSidebarMini] = useState(true);
   const [opacity, setOpacity] = useState(0);
@@ -29,6 +32,56 @@ const Admin = () => {
     });
   };
 
+  const handleActiveClick = (color) => {
+    setActiveColor(color);
+  };
+  const handleMiniClick = () => {
+    let notifyMessage = 'Sidebar mini ';
+    if (document.body.classList.contains('sidebar-mini')) {
+      setSidebarMini(false);
+      notifyMessage += 'deactivated...';
+    } else {
+      setSidebarMini(true);
+      notifyMessage += 'activated...';
+    }
+    let options = {};
+    options = {
+      place: 'tr',
+      message: notifyMessage,
+      type: 'primary',
+      icon: 'tim-icons icon-bell-55',
+      autoDismiss: 7,
+    };
+    notificationAlertRef.current.notificationAlert(options);
+    document.body.classList.toggle('sidebar-mini');
+  };
+  const closeSidebar = () => {
+    setSidebarOpened(false);
+    document.documentElement.classList.remove('nav-open');
+  };
+
+  useEffect(() => {
+    if (!authState.isAuthenticated) {
+      // When user isn't authenticated, forget any user info
+      setUserInfo(null);
+    } else {
+      setUserInfo(authState.accessToken.claims.user.profile);
+      // This is currently not working.. ticket opened with okta to resolve
+      // oktaAuth
+      //   .getUser({
+      //     accessToken: authState.accessToken.accessToken,
+      //     idToken: authState.idToken.idToken,
+      //   })
+      //   .then((info) => {
+      //     console.log(info);
+      //     setUserInfo(info);
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
+    }
+  }, [authState, oktaAuth]);
+
   if (authState.isPending) {
     return (
       <div className="profile-page">
@@ -46,6 +99,15 @@ const Admin = () => {
   if (authState.isAuthenticated)
     return (
       <div className="wrapper">
+        <div className="rna-container">
+          <NotificationAlert ref={notificationAlertRef} />
+        </div>
+        <div className="navbar-minimize-fixed" style={{ opacity: opacity }}>
+          <button className="minimize-sidebar btn btn-link btn-just-icon" onClick={handleMiniClick}>
+            <i className="tim-icons icon-align-center visible-on-sidebar-regular text-muted" />
+            <i className="tim-icons icon-bullet-list-67 visible-on-sidebar-mini text-muted" />
+          </button>
+        </div>
         <Sidebar
           routes={routes}
           activeColor={activeColor}
@@ -54,6 +116,7 @@ const Admin = () => {
             text: 'Admin Console',
             imgSrc: logo,
           }}
+          closeSidebar={closeSidebar}
         />
         <div className="main-panel" ref={mainPanelRef} data={activeColor}>
           <Switch>
@@ -61,6 +124,12 @@ const Admin = () => {
             <Redirect from="*" to="/admin/dashboard" />
           </Switch>
         </div>
+        <FixedPlugin
+          activeColor={activeColor}
+          sidebarMini={sidebarMini}
+          handleActiveClick={handleActiveClick}
+          handleMiniClick={handleMiniClick}
+        />
       </div>
     );
 };

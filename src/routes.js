@@ -1,5 +1,6 @@
 // This is used for admin dashboards only.
 // For main routing please see app.js
+import Dashboard from './Components/admin/Dashboard';
 import Users from './Components/admin/Users';
 import Bob from './Components/admin/Bob';
 import CashGames from './Components/admin/CashGames';
@@ -12,6 +13,13 @@ import Settings from './Components/admin/Settings';
 import UploadData from './Components/admin/UploadData';
 
 const routes = [
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    icon: 'tim-icons icon-components',
+    component: Dashboard,
+    layout: '/admin',
+  },
   {
     path: '/users',
     name: 'Users',

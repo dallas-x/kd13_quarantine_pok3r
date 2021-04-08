@@ -1,13 +1,60 @@
-import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { useRef, useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from 'perfect-scrollbar';
 
 // reactstrap components
 import { Nav, Collapse } from 'reactstrap';
 
+let ps;
 const Sidebar = (props) => {
+  const [state, setState] = useState();
+  const sidebarRef = useRef(null);
+
+  const getCollapseInitialState = (routes) => {
+    for (let i = 0; i < routes.length; i++) {
+      if (routes[i].collapse && getCollapseInitialState(routes[i].views)) {
+        return true;
+      } else if (window.location.href.indexOf(routes[i].path) !== -1) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const getCollapseStates = (routes) => {
+    let initialState = {};
+    routes.map((prop, key) => {
+      if (prop.collapse) {
+        initialState = {
+          [prop.state]: getCollapseInitialState(prop.views),
+          ...getCollapseStates(prop.views),
+          ...initialState,
+        };
+      }
+      return null;
+    });
+    return initialState;
+  };
+  useEffect(() => {
+    setState(getCollapseStates(props.routes));
+  }, []);
+  useEffect(() => {
+    // if you are using a Windows Machine, the scrollbars will have a Mac look
+    if (navigator.platform.indexOf('Win') > -1) {
+      ps = new PerfectScrollbar(sidebarRef.current, {
+        suppressScrollX: true,
+        suppressScrollY: false,
+      });
+    }
+    return function cleanup() {
+      // we need to destroy the false scrollbar when we navigate
+      // to a page that doesn't have this component rendered
+      if (navigator.platform.indexOf('Win') > -1) {
+        ps.destroy();
+      }
+    };
+  });
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
