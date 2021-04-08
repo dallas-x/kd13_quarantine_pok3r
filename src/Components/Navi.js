@@ -201,6 +201,17 @@ const Navi = () => {
                   </NavLink>
                 )}
               </NavItem>
+              <NavItem>
+                {authState.isAuthenticated ? (
+                  <NavLink tag={Link} to="/profile">
+                    {authState.accessToken.claims.user.profile.nickName}
+                  </NavLink>
+                ) : (
+                  <NavLink tag={Link} to="/register">
+                    Register
+                  </NavLink>
+                )}
+              </NavItem>
             </Nav>
           </Collapse>
         </Container>
