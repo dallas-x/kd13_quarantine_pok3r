@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 import {
   Button,
   Collapse,
@@ -18,6 +19,8 @@ import {
 const Navi = () => {
   const [collapseOpen, setCollapseOpen] = useState(false);
   const [collapseOut, setCollapseOut] = useState('');
+  const [sidebarOpened, setSidebarOpened] = useState(false);
+  const [sidebarMini, setSidebarMini] = useState(false);
   const [color, setColor] = useState('navbar-transparent');
   const { authState, oktaAuth } = useOktaAuth();
 
@@ -32,9 +35,21 @@ const Navi = () => {
       setColor('navbar-transparent');
     }
   };
+  const handleMiniClick = () => {
+    if (document.body.classList.contains('sidebar-mini')) {
+      setSidebarMini(false);
+    } else {
+      setSidebarMini(true);
+    }
+    document.body.classList.toggle('sidebar-mini');
+  };
   const toggleCollapse = () => {
     document.documentElement.classList.toggle('nav-open');
     setCollapseOpen(!collapseOpen);
+  };
+  const toggleSidebar = () => {
+    setSidebarOpened(!sidebarOpened);
+    document.documentElement.classList.toggle('nav-open');
   };
   const onCollapseExiting = () => {
     setCollapseOut('collapsing-out');
@@ -55,8 +70,33 @@ const Navi = () => {
   } else {
     return (
       <Navbar className={'fixed-top ' + color} color-on-scroll="100" expand="lg">
-        <Container>
-          <div className="navbar-translate">
+        <Container fluid>
+          <div className="navbar-wrapper">
+            <div className="navbar-minimize d-inline">
+              <Button
+                className="minimize-sidebar btn-just-icon"
+                color="link"
+                id="tooltip209599"
+                onClick={handleMiniClick}
+              >
+                <i className="tim-icons icon-align-center visible-on-sidebar-regular" />
+                <i className="tim-icons icon-bullet-list-67 visible-on-sidebar-mini" />
+              </Button>
+              <UncontrolledTooltip delay={0} target="tooltip209599" placement="right">
+                Sidebar toggle
+              </UncontrolledTooltip>
+            </div>
+            <div
+              className={classNames('navbar-toggle d-inline', {
+                toggled: sidebarOpened,
+              })}
+            >
+              <button className="navbar-toggler" type="button" onClick={toggleSidebar}>
+                <span className="navbar-toggler-bar bar1" />
+                <span className="navbar-toggler-bar bar2" />
+                <span className="navbar-toggler-bar bar3" />
+              </button>
+            </div>
             <NavbarBrand to="/" id="navbar-brand" tag={Link}>
               <span>kd13 • </span>
               experiment9
@@ -162,9 +202,17 @@ const Navi = () => {
                 )}
               </NavItem>
               <NavItem>
-                <NavLink href="https://support.sheldyn.io" target="_blank">
-                  <i className="tim-icons icon-alert-circle-exc" /> Have an issue?
-                </NavLink>
+                {authState.isAuthenticated ? (
+                  <NavLink tag={Link} to="/profile">
+                    {authState.accessToken.claims.user.profile.nickName
+                      ? authState.accessToken.claims.user.profile.nickName
+                      : authState.accessToken.claims.user.profile.firstName}
+                  </NavLink>
+                ) : (
+                  <NavLink tag={Link} to="/register">
+                    Register
+                  </NavLink>
+                )}
               </NavItem>
             </Nav>
           </Collapse>
