@@ -8,7 +8,7 @@
 [![forthebadge](https://forthebadge.com/images/badges/made-with-crayons.svg)](https://forthebadge.com)
 <br />
 [![Code Grade](https://www.code-inspector.com/project/19696/score/svg)](https://frontend.code-inspector.com/public/project/19696/kd13_quarantine_pok3r/dashboard)
-[![Open Source Love](https://firstcontributions.github.io/open-source-badges/badges/open-source-v3/open-source-175x29.png)](https://github.com/firstcontributions/open-source-badges) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=for-the-badge)](https://github.com/k1ddarkn3ss/graphs/commit-activity) [![Website poker.kd13.dev](https://img.shields.io/website?down_color=red&down_message=offline&style=for-the-badge&up_color=green&up_message=online&url=https%3A%2F%2Fqpoker.k1ddarkn3ss.dev)](https://kd13-quarantine-pok3r.vercel.app) [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl-125x28.png?v=103)](https://github.com/k1ddarkn3ss/kd13_quarantine_pok3r/blob/master/LICENSE)
+[![Open Source Love](https://firstcontributions.github.io/open-source-badges/badges/open-source-v3/open-source-175x29.png)](https://github.com/firstcontributions/open-source-badges) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/k1ddarkn3ss/graphs/commit-activity) [![Website poker.kd13.dev](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Fqpoker.k1ddarkn3ss.dev)](https://kd13-quarantine-pok3r.vercel.app) [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.png?v=103)](https://github.com/k1ddarkn3ss/kd13_quarantine_pok3r/blob/master/LICENSE)
 [![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/shadow-dimension/community)
 
 </div>
