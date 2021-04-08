@@ -204,7 +204,9 @@ const Navi = () => {
               <NavItem>
                 {authState.isAuthenticated ? (
                   <NavLink tag={Link} to="/profile">
-                    {authState.accessToken.claims.user.profile.nickName}
+                    {authState.accessToken.claims.user.profile.nickName
+                      ? authState.accessToken.claims.user.profile.nickName
+                      : authState.accessToken.claims.user.profile.firstName}
                   </NavLink>
                 ) : (
                   <NavLink tag={Link} to="/register">
