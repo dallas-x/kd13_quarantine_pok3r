@@ -1,15 +1,15 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 // javascript plugin used to create scrollbars on windows
-import PerfectScrollbar from 'perfect-scrollbar';
+// import PerfectScrollbar from 'perfect-scrollbar';
 
 // reactstrap components
 import { Nav, Collapse } from 'reactstrap';
 
-let ps;
+//let ps;
 const Sidebar = (props) => {
   const [state, setState] = useState();
-  const sidebarRef = useRef(null);
+  // const sidebarRef = useRef(null);
 
   const getCollapseInitialState = (routes) => {
     for (let i = 0; i < routes.length; i++) {
@@ -24,7 +24,7 @@ const Sidebar = (props) => {
 
   const getCollapseStates = (routes) => {
     let initialState = {};
-    routes.map((prop, key) => {
+    routes.map((prop) => {
       if (prop.collapse) {
         initialState = {
           [prop.state]: getCollapseInitialState(prop.views),
@@ -39,22 +39,24 @@ const Sidebar = (props) => {
   useEffect(() => {
     setState(getCollapseStates(props.routes));
   }, []);
-  useEffect(() => {
-    // if you are using a Windows Machine, the scrollbars will have a Mac look
-    if (navigator.platform.indexOf('Win') > -1) {
-      ps = new PerfectScrollbar(sidebarRef.current, {
-        suppressScrollX: true,
-        suppressScrollY: false,
-      });
-    }
-    return function cleanup() {
-      // we need to destroy the false scrollbar when we navigate
-      // to a page that doesn't have this component rendered
-      if (navigator.platform.indexOf('Win') > -1) {
-        ps.destroy();
-      }
-    };
-  });
+
+  // This breaks windows
+  // useEffect(() => {
+  //   // if you are using a Windows Machine, the scrollbars will have a Mac look
+  //   if (navigator.platform.indexOf('Win') > -1) {
+  //     ps = new PerfectScrollbar(sidebarRef.current, {
+  //       suppressScrollX: true,
+  //       suppressScrollY: false,
+  //     });
+  //   }
+  //   return function cleanup() {
+  //     // we need to destroy the false scrollbar when we navigate
+  //     // to a page that doesn't have this component rendered
+  //     if (navigator.platform.indexOf('Win') > -1) {
+  //       ps.destroy();
+  //     }
+  //   };
+  // });
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
