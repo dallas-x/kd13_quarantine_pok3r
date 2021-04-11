@@ -48,7 +48,7 @@ const Bob = () => {
   }, [bob, setPlayers, authState.accessToken.accessToken]);
   return (
     <div className="content">
-      <div className="rna-container">
+      <div className="">
         <NotificationAlert ref={notificationAlertRef} />
       </div>
 
