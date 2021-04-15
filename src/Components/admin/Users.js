@@ -6,11 +6,12 @@ import { Button, Row, Col } from 'reactstrap';
 
 const Users = () => {
   const { authState } = useOktaAuth();
-  const [players, setPlayers] = useState([{ Players: [{ Player: 'Not Found', Score: 0 }] }]);
+  const [players, setPlayers] = useState([]);
   const [col] = useState([
-    { Header: '#', accessor: 'Rank' },
     { Header: 'ID', accessor: 'Player_ID' },
     { Header: 'Name', accessor: 'Player' },
+    { Header: 'Games Played', accessor: 'Games_Played' },
+    { Header: 'Active', accessor: 'Active' },
   ]);
   const [bob, BobTable] = useReactiveTable({
     columns: col,
@@ -19,13 +20,16 @@ const Users = () => {
 
   useEffect(() => {
     axios
-      .get('https://testing-poker.herokuapp.com/players/get', {
+      .get(`${process.env.SERVER}/users/get`, {
         headers: {
           'x-sheldyn-Authorization': authState.accessToken.accessToken,
         },
       })
       .then((response) => {
-        setPlayers(response.data);
+        console.log(response.data);
+        response.data.length === 0
+          ? setPlayers([{ Player: 'Not Found', Player_ID: 'Unknown' }])
+          : setPlayers(response.data);
       })
       .catch((error) => {
         throw new Error(error);

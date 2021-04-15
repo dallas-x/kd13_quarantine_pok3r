@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useOktaAuth, withOktaAuth } from '@okta/okta-react';
+import React, { useEffect } from 'react';
 import classnames from 'classnames';
-import purpleBlock from 'url:../assets/img/square-purple-1.png';
+import purpleBlock from 'url:../../assets/img/square-purple-1.png';
 // reactstrap components
 import {
   Button,
@@ -24,19 +23,12 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
-  const { oktaAuth, authState } = useOktaAuth();
-  const [squares1to6, setSquares1to6] = useState('');
-  const [squares7and8, setSquares7and8] = useState('');
-  const [emailFocus, setEmailFocus] = useState(false);
-  const [passwordFocus, setPasswordFocus] = useState(false);
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const [sessionToken, setSessionToken] = useState('');
-  const [error, setError] = useState('');
-  const [termsConditions, setTermsConditions] = useState(false);
-  const [readTerms, setReadTerms] = useState(false);
-
+const Registration = () => {
+  const [squares1to6, setSquares1to6] = React.useState('');
+  const [squares7and8, setSquares7and8] = React.useState('');
+  const [fullNameFocus, setFullNameFocus] = React.useState(false);
+  const [emailFocus, setEmailFocus] = React.useState(false);
+  const [referralFocus, setReferralFocus] = React.useState(false);
   useEffect(() => {
     document.body.classList.toggle('register-page');
     document.documentElement.addEventListener('mousemove', followCursor);
@@ -56,23 +48,6 @@ const Login = () => {
       'perspective(500px) rotateY(' + posX * 0.02 + 'deg) rotateX(' + posY * -0.02 + 'deg)',
     );
   };
-  const handleLogin = (username, password) => {
-    setPassword('');
-    oktaAuth
-      .signInWithCredentials({ username, password })
-      .then((transaction) => {
-        if (transaction.status === 'SUCCESS') {
-          setUsername('');
-          const sessionToken = transaction.sessionToken;
-          setSessionToken(sessionToken);
-          // sessionToken is a one-use token, so make sure this is only called once
-          oktaAuth.signInWithRedirect({ sessionToken });
-        }
-      })
-      .catch((err) => {
-        setError({ error: err.message });
-      });
-  };
   return (
     <div className="wrapper">
       <div className="page-header">
@@ -86,16 +61,27 @@ const Login = () => {
                 <Card className="card-register">
                   <CardHeader>
                     <CardImg alt="..." src={purpleBlock} />
-                    <CardTitle tag="h4">Login</CardTitle>
+                    <CardTitle tag="h4">Register</CardTitle>
                   </CardHeader>
-
-                  <CardBody className="form">
-                    <Form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        handleLogin(username, password);
-                      }}
-                    >
+                  <CardBody>
+                    <Form className="form">
+                      <InputGroup
+                        className={classnames({
+                          'input-group-focus': fullNameFocus,
+                        })}
+                      >
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="tim-icons icon-single-02" />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          placeholder="League ID"
+                          type="text"
+                          onFocus={(e) => setFullNameFocus(true)}
+                          onBlur={(e) => setFullNameFocus(false)}
+                        />
+                      </InputGroup>
                       <InputGroup
                         className={classnames({
                           'input-group-focus': emailFocus,
@@ -109,15 +95,13 @@ const Login = () => {
                         <Input
                           placeholder="Email"
                           type="text"
-                          value={username}
-                          onChange={(e) => setUsername(e.target.value)}
                           onFocus={(e) => setEmailFocus(true)}
                           onBlur={(e) => setEmailFocus(false)}
                         />
                       </InputGroup>
                       <InputGroup
                         className={classnames({
-                          'input-group-focus': passwordFocus,
+                          'input-group-focus': referralFocus,
                         })}
                       >
                         <InputGroupAddon addonType="prepend">
@@ -126,59 +110,38 @@ const Login = () => {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          placeholder="Password"
-                          type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          onFocus={(e) => setPasswordFocus(true)}
-                          onBlur={(e) => setPasswordFocus(false)}
+                          placeholder="Referral"
+                          type="text"
+                          onFocus={(e) => setReferralFocus(true)}
+                          onBlur={(e) => setReferralFocus(false)}
                         />
                       </InputGroup>
                       <FormGroup check className="text-left">
                         <Label check>
-                          <Input
-                            type="checkbox"
-                            checked={termsConditions}
-                            onChange={(e) => {
-                              setTermsConditions(e.target.checked);
-                            }}
-                          />
+                          <Input type="checkbox" />
                           <span className="form-check-sign" />I agree to the{' '}
-                          <a
-                            href="https://github.com/k1ddarkn3ss/kd13_quarantine_pok3r/blob/main/DOCS/Rules/TERMS_OF_USE.MD"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setReadTerms(true);
-                            }}
-                          >
+                          <a href="#pablo" onClick={(e) => e.preventDefault()}>
                             terms and conditions
                           </a>
                           .
                         </Label>
                       </FormGroup>
-                      <br />
-                      <FormGroup>
-                        <Button
-                          disabled={!termsConditions}
-                          className="btn-round"
-                          color="primary"
-                          size="lg"
-                        >
-                          Login
-                        </Button>
-                      </FormGroup>
                     </Form>
                   </CardBody>
                   <CardFooter>
+                    <Button disabled="true" className="btn-round" color="primary" size="lg">
+                      Get Started
+                    </Button>
                     <a
                       className="btn btn-round"
                       color="secondary"
                       tag={Link}
-                      to="/registration"
-                      href="/registration"
+                      to="/login"
+                      href="/login"
                     >
-                      Need an account
+                      Have an Account?
                     </a>
+                    <p>We are not accepting new accounts at this time!</p>
                   </CardFooter>
                 </Card>
               </Col>
@@ -197,4 +160,4 @@ const Login = () => {
   );
 };
 
-export default withOktaAuth(Login);
+export default Registration;

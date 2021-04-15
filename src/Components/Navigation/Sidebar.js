@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 // javascript plugin used to create scrollbars on windows
-// import PerfectScrollbar from 'perfect-scrollbar';
+// import PerfectScrollbar from 'react-perfect-scrollbar';
 
 // reactstrap components
 import { Nav, Collapse } from 'reactstrap';

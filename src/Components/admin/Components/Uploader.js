@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { CSVReader } from 'react-papaparse';
 import { Row, Container, Button } from 'reactstrap';
 import ErrorBoundary from './ErrorBoundary';
 
-const buttonRef = React.createRef();
+const buttonRef = createRef();
 
 class Uploader extends Component {
   state = { loaded: false, status: 'no file has been loaded' };
@@ -11,7 +11,7 @@ class Uploader extends Component {
   handleOnDrop = (file) => {
     console.log(file);
     console.log('---------------------------');
-    fetch('https://testing-poker.herokuapp.com/upload', {
+    fetch(`${process.env.SERVER}/upload`, {
       method: 'POST',
       body: JSON.stringify(file),
       headers: {
@@ -22,8 +22,16 @@ class Uploader extends Component {
       (response) => {
         if (response.ok) {
           this.setState({ status: 'File Uploaded for Processing', loaded: true });
-          this.props.onProcessFile(true);
-          console.log(response.body);
+          let options = {};
+          options = {
+            place: 'tr',
+            message: 'Your file was successfully processed!',
+            type: 'success',
+            icon: 'tim-icons icon-check-2',
+            autoDismiss: 7,
+          };
+          this.props.alertSuccess(options);
+
           return response.body;
         } else {
           this.setState({ status: 'File was rejected by Server' });

@@ -7,40 +7,55 @@ import NotificationAlert from 'react-notification-alert';
 
 const Bob = () => {
   const { authState } = useOktaAuth();
-  const [players, setPlayers] = useState([{ Players: [{ Player: 'Not Found', Score: 0 }] }]);
+  const defaultState = [{ Player: 'Not Found', Player_ID: 'Unknown', Score: 0 }];
+  const [players, setPlayers] = useState(defaultState);
   const [col] = useState([
-    { Header: '#', accessor: 'Rank' },
     { Header: 'ID', accessor: 'Player_ID' },
     { Header: 'Name', accessor: 'Player' },
     { Header: 'Score', accessor: 'Score' },
   ]);
-  const [bob, BobTable] = useReactiveTable({
-    columns: col,
-    data: players,
-  });
+  const [bob, BobTable] = useReactiveTable(
+    {
+      columns: col,
+      data: players,
+    },
+    'BOB',
+  );
   const notificationAlertRef = useRef(null);
 
   const woops = () => {
     let options = {};
     options = {
       place: 'tr',
-      message: 'This is deprecated, please start a new season!',
+      message: 'This will be deprecated soon, in the future you will need to start a new season!',
       type: 'default',
       icon: 'tim-icons icon-alert-circle-exc',
-      autoDismiss: 7,
+      autoDismiss: 15,
     };
     notificationAlertRef.current.notificationAlert(options);
+    axios
+      .get(`${process.env.SERVER}/players/reset`, {
+        headers: {
+          'x-sheldyn-Authorization': authState.accessToken.accessToken,
+        },
+      })
+      .then(() => {
+        setPlayers(defaultState);
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
   };
 
   useEffect(() => {
     axios
-      .get('https://testing-poker.herokuapp.com/players/get', {
+      .get(`${process.env.SERVER}/players/get`, {
         headers: {
           'x-sheldyn-Authorization': authState.accessToken.accessToken,
         },
       })
       .then((response) => {
-        setPlayers(response.data);
+        response.data.length === 0 ? setPlayers(defaultState) : setPlayers(response.data);
       })
       .catch((error) => {
         throw new Error(error);
@@ -54,15 +69,17 @@ const Bob = () => {
 
       <Card className="card">
         <CardHeader>
-          <CardTitle tag="h1">
-            B{' '}
+          <CardTitle text="center" tag="h1">
             <span className="emoji" role="img" aria-label="crown">
               👑
             </span>{' '}
-            B
+            {players[0].Player}{' '}
+            <span className="emoji" role="img" aria-label="crown">
+              👑
+            </span>
           </CardTitle>
 
-          <CardSubtitle className="card-title">This weeks best of the best!</CardSubtitle>
+          <CardSubtitle className="card-title">This weeks Best of the Best!</CardSubtitle>
         </CardHeader>
 
         <br />

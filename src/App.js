@@ -3,13 +3,13 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
 import { Security, LoginCallback, SecureRoute } from '@okta/okta-react';
 import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
-import Navi from './Components/Navi';
+import Navi from './Components/navigation/Navi';
 import Home from './Views/Home';
 import Admin from './Views/Admin';
-import LowLimit from './Views/LowLimit';
+import Dashboard from './Views/Dashboard';
 import HighRoller from './Views/HighRoller';
-import Registration from './Views/Registration';
-import Login from './Views/Login';
+import Registration from './Views/Auth/Registration';
+import Login from './Views/Auth/Login';
 
 const App = () => {
   const history = useHistory();
@@ -38,7 +38,7 @@ const App = () => {
           <Route path="/" exact component={Home} />
           <Route path="/admin" component={Admin} />
           <SecureRoute path="/high" component={HighRoller} />
-          <Route path="/low" component={LowLimit} />
+          <Route path="/Dashboard" component={Dashboard} />
           <Route path="/registration" component={Registration} />
         </Switch>
         <Route path="/login" component={Login} />

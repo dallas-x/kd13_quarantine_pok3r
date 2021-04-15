@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
-import Sidebar from '../Components/Navigation/Sidebar';
-import FixedPlugin from '../Components/Plugin/FixedPlugin';
+import Sidebar from '../Components/navigation/Sidebar';
+import FixedPlugin from '../Components/plugin/FixedPlugin';
 import { Container } from 'reactstrap';
 import NotificationAlert from 'react-notification-alert';
 import { Redirect, Route, useLocation, Switch } from 'react-router-dom';

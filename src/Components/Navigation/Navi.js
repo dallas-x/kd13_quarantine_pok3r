@@ -177,7 +177,12 @@ const Navi = () => {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <Button className="nav-link d-none d-lg-block" color="primary" tag={Link} to="/low">
+                <Button
+                  className="nav-link d-none d-lg-block"
+                  color="primary"
+                  tag={Link}
+                  to="/dashboard"
+                >
                   <i className="tim-icons icon-chart-bar-32" /> Dashboard
                 </Button>
               </NavItem>
