@@ -82,13 +82,13 @@ const Seasons = () => {
       <p>{`Total Possible Points: ${seasons[0].TPP}` || 'no data found'}</p>
       <div className="btn-wrapper">
         <Button onClick={woopsx} className="btn-simple" color="success">
-          <i className="tim-icons icon-refresh-01" /> New Season
+          <i className="tim-icons icon-tap-02" /> New Season
         </Button>
         <Button onClick={resetSeason} className="btn-simple" color="warning">
           <i className="tim-icons icon-refresh-01" /> Reset Season
         </Button>
         <Button onClick={woopsy} className="btn-simple" color="danger">
-          <i className="tim-icons icon-refresh-01" /> Delete Season
+          <i className="tim-icons icon-trash-simple" /> Delete Season
         </Button>
       </div>
     </div>
