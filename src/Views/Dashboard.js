@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { firestore } from '../firebase';
-import Sidebar from '../Components/navigation/Sidebar';
+import Sidebar from '../Components/Sidebar';
 import FixedPlugin from '../Components/plugin/FixedPlugin';
 import NotificationAlert from 'react-notification-alert';
 import { Redirect, Route, useLocation, Switch } from 'react-router-dom';
