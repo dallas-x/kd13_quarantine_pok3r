@@ -12,14 +12,6 @@
     "lint": "elint \"src/**/*.{js,jsx}\" --quiet"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@babel/plugin-syntax-class-properties": "^7.12.13",
-    "@babel/preset-env": "^7.12.16",
-    "@babel/preset-react": "^7.13.13",
-    "@parcel/babel-plugin-transform-runtime": "^2.0.0-nightly.1823",
-    "@parcel/babel-preset-env": "^2.0.0-alpha.3",
-    "@parcel/transformer-image": "2.0.0-beta.3.1",
     "debug": "^4.3.1",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
@@ -35,7 +27,6 @@
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^11.2.0",
     "@emotion/core": "^11.0.0",
-    "axios": "^0.21.1",
     "cors": "^2.8.5",
     "firebase": "^8.4.1",
     "nouislider": "^14.6.3",
