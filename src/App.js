@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import UserProvider from './providers/UserProvider';
-import Navi from './Components/navigation/Navi';
+import Navi from './Components/Navigation/Navi';
 import Home from './Views/Home';
 import Admin from './Views/Admin';
 import Dashboard from './Views/Dashboard';
@@ -14,7 +14,7 @@ const App = () => {
   return (
     <Router>
       <UserProvider>
-        <Navi history={history} />
+        <Navi />
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/admin" component={Admin} />
