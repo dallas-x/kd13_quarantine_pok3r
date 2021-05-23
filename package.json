@@ -12,7 +12,6 @@
     "lint": "elint \"src/**/*.{js,jsx}\" --quiet"
   },
   "devDependencies": {
-    "@parcel/transformer-image": "2.0.0-beta.3.1",
     "debug": "^4.3.1",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
@@ -21,7 +20,7 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "jshint": "^2.12.0",
-    "parcel": "^2.0.0-beta.3.1",
+    "parcel": "next",
     "prettier": "^2.2.1",
     "sass": "^1.32.8"
   },
