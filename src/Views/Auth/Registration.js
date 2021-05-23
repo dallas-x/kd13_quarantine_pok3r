@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import classnames from 'classnames';
-import purpleBlock from 'url:../assets/img/square-purple-1.png';
+import purpleBlock from 'url:../../assets/img/square-purple-1.png';
 // reactstrap components
 import {
   Button,

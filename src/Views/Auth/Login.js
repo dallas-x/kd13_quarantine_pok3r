@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useOktaAuth, withOktaAuth } from '@okta/okta-react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
+import { auth } from '../../firebase';
 import classnames from 'classnames';
-import purpleBlock from 'url:../assets/img/square-purple-1.png';
+import purpleBlock from 'url:../../assets/img/square-purple-1.png';
+import { useHistory } from 'react-router-dom';
 // reactstrap components
 import {
   Button,
@@ -23,19 +24,19 @@ import {
   Col,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import NotificationAlert from 'react-notification-alert';
 
 const Login = () => {
-  const { oktaAuth, authState } = useOktaAuth();
   const [squares1to6, setSquares1to6] = useState('');
   const [squares7and8, setSquares7and8] = useState('');
   const [emailFocus, setEmailFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
-  const [sessionToken, setSessionToken] = useState('');
-  const [error, setError] = useState('');
   const [termsConditions, setTermsConditions] = useState(false);
   const [readTerms, setReadTerms] = useState(false);
+  const notificationAlertRef = useRef(null);
+  const history = useHistory();
 
   useEffect(() => {
     document.body.classList.toggle('register-page');
@@ -56,25 +57,36 @@ const Login = () => {
       'perspective(500px) rotateY(' + posX * 0.02 + 'deg) rotateX(' + posY * -0.02 + 'deg)',
     );
   };
-  const handleLogin = (username, password) => {
-    setPassword('');
-    oktaAuth
-      .signInWithCredentials({ username, password })
-      .then((transaction) => {
-        if (transaction.status === 'SUCCESS') {
-          setUsername('');
-          const sessionToken = transaction.sessionToken;
-          setSessionToken(sessionToken);
-          // sessionToken is a one-use token, so make sure this is only called once
-          oktaAuth.signInWithRedirect({ sessionToken });
-        }
+
+  const fireLogin = (username, password) => {
+    auth
+      .signInWithEmailAndPassword(username, password)
+      .then((userCredential) => {
+        if (userCredential.user.isNewUser) {
+          history.replace('/admin/upload');
+        } else history.replace('/admin');
       })
-      .catch((err) => {
-        setError({ error: err.message });
+      .catch((error) => {
+        const errorCode = error.code;
+        let errorMessage = error.message;
+        const options = {
+          place: 'tr',
+          message: errorMessage,
+          type: 'danger',
+          icon: 'tim-icons icon-bell-55',
+          autoDismiss: 7,
+        };
+        if (errorCode === 'auth/wrong-password' || errorCode === 'auth/user-not-found') {
+          notificationAlertRef.current.notificationAlert(options);
+        } else {
+          errorMessage = 'An uknown error has occurred, please contact support!';
+          notificationAlertRef.current.notificationAlert(options);
+        }
       });
   };
   return (
     <div className="wrapper">
+      <NotificationAlert ref={notificationAlertRef} />
       <div className="page-header">
         <div className="page-header-image" />
         <div className="content">
@@ -93,7 +105,7 @@ const Login = () => {
                     <Form
                       onSubmit={(e) => {
                         e.preventDefault();
-                        handleLogin(username, password);
+                        fireLogin(username, password);
                       }}
                     >
                       <InputGroup
@@ -197,4 +209,4 @@ const Login = () => {
   );
 };
 
-export default withOktaAuth(Login);
+export default Login;

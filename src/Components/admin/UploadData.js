@@ -1,14 +1,27 @@
-import React from 'react';
-import { useOktaAuth } from '@okta/okta-react';
-import UnderConstruction from './Components/UnderConstruction';
-import Uploader from './Components/Uploader';
+import React, { useRef } from 'react';
+import Uploader from './components/Uploader';
+import NotificationAlert from 'react-notification-alert';
 
 const Tournaments = () => {
-  const { authState } = useOktaAuth();
+  const notificationAlertRef = useRef(null);
+  const alertSuccess = (options) => {
+    notificationAlertRef.current.notificationAlert(options);
+  };
   return (
     <div className="content">
-      <UnderConstruction title="Upload CSV File" description="Under construction" />
-      <Uploader accessToken={authState.accessToken.accessToken} />
+      <div className="">
+        <NotificationAlert ref={notificationAlertRef} />
+      </div>
+      <div className="card">
+        <div className="card-body">
+          <h3>More options are coming soon!</h3>
+          <ul>
+            <li>Select type of game during upload</li>
+            <li>Configure email for auto game update!</li>
+          </ul>
+        </div>
+        <Uploader alertSuccess={alertSuccess} />
+      </div>
     </div>
   );
 };

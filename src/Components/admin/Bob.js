@@ -1,51 +1,51 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useOktaAuth } from '@okta/okta-react';
-import axios from 'axios';
-import useReactiveTable from './Components/useReactTable';
+import useReactiveTable from './components/useReactTable';
 import { Button, Row, Col, Card, CardHeader, CardTitle, CardBody, CardSubtitle } from 'reactstrap';
 import NotificationAlert from 'react-notification-alert';
+import { firestore } from '../../firebase';
+import { collectIdsAndDocs } from '../../utilities';
 
 const Bob = () => {
-  const { authState } = useOktaAuth();
-  const [players, setPlayers] = useState([{ Players: [{ Player: 'Not Found', Score: 0 }] }]);
+  const defaultState = [{ Player: 'Not Found', Player_ID: 'Unknown', Score: 0 }];
+  const [players, setPlayers] = useState(defaultState);
   const [col] = useState([
-    { Header: '#', accessor: 'Rank' },
     { Header: 'ID', accessor: 'Player_ID' },
-    { Header: 'Name', accessor: 'Player' },
-    { Header: 'Score', accessor: 'Score' },
+    { Header: 'Name', accessor: 'Name' },
+    { Header: 'Rank', accessor: 'Rank' },
   ]);
-  const [bob, BobTable] = useReactiveTable({
-    columns: col,
-    data: players,
-  });
+  const [bob, BobTable] = useReactiveTable(
+    {
+      columns: col,
+      data: players,
+    },
+    'BOB',
+  );
   const notificationAlertRef = useRef(null);
 
   const woops = () => {
     let options = {};
     options = {
       place: 'tr',
-      message: 'This is deprecated, please start a new season!',
+      message: 'This will be deprecated soon, in the future you will need to start a new season!',
       type: 'default',
       icon: 'tim-icons icon-alert-circle-exc',
-      autoDismiss: 7,
+      autoDismiss: 15,
     };
     notificationAlertRef.current.notificationAlert(options);
   };
 
   useEffect(() => {
-    axios
-      .get('https://testing-poker.herokuapp.com/players/get', {
-        headers: {
-          'x-sheldyn-Authorization': authState.accessToken.accessToken,
-        },
-      })
-      .then((response) => {
-        setPlayers(response.data);
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
-  }, [bob, setPlayers, authState.accessToken.accessToken]);
+    // const getPost = async () => {
+    //   const snapshot = await firestore
+    //     .collection('Bob/5f5e72a2817f77659582edeb/scoreBoard')
+    //     .orderBy('Rank', 'desc')
+    //     .get();
+    //   const scoreBoard = snapshot.docs.map(collectIdsAndDocs);
+    //   setPlayers(scoreBoard);
+    // };
+    // getPost();
+  }, []);
+
   return (
     <div className="content">
       <div className="">
@@ -54,15 +54,17 @@ const Bob = () => {
 
       <Card className="card">
         <CardHeader>
-          <CardTitle tag="h1">
-            B{' '}
+          <CardTitle text="center" tag="h1">
             <span className="emoji" role="img" aria-label="crown">
               👑
             </span>{' '}
-            B
+            {players[0].Name}{' '}
+            <span className="emoji" role="img" aria-label="crown">
+              👑
+            </span>
           </CardTitle>
 
-          <CardSubtitle className="card-title">This weeks best of the best!</CardSubtitle>
+          <CardSubtitle className="card-title">This weeks Best of the Best!</CardSubtitle>
         </CardHeader>
 
         <br />
