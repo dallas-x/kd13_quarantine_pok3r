@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useOktaAuth } from '@okta/okta-react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../../providers/UserProvider';
+import { auth } from '../../firebase';
+import { Link, useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import {
   Button,
@@ -22,10 +23,12 @@ const Navi = () => {
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const [sidebarMini, setSidebarMini] = useState(false);
   const [color, setColor] = useState('navbar-transparent');
-  const { authState, oktaAuth } = useOktaAuth();
+  const user = useContext(UserContext);
+  const history = useHistory();
 
-  const logout = async () => {
-    oktaAuth.signOut('/');
+  const logout = () => {
+    auth.signOut();
+    history.replace('/login');
   };
 
   const changeColor = () => {
@@ -64,167 +67,121 @@ const Navi = () => {
       window.removeEventListener('scroll', changeColor);
     };
   }, []);
-
-  if (authState.isPending) {
-    return null;
-  } else {
-    return (
-      <Navbar className={'fixed-top ' + color} color-on-scroll="100" expand="lg">
-        <Container fluid>
-          <div className="navbar-wrapper">
-            <div className="navbar-minimize d-inline">
-              <Button
-                className="minimize-sidebar btn-just-icon"
-                color="link"
-                id="tooltip209599"
-                onClick={handleMiniClick}
-              >
-                <i className="tim-icons icon-align-center visible-on-sidebar-regular" />
-                <i className="tim-icons icon-bullet-list-67 visible-on-sidebar-mini" />
-              </Button>
-              <UncontrolledTooltip delay={0} target="tooltip209599" placement="right">
-                Sidebar toggle
-              </UncontrolledTooltip>
-            </div>
-            <div
-              className={classNames('navbar-toggle d-inline', {
-                toggled: sidebarOpened,
-              })}
+  return (
+    <Navbar className={'fixed-top ' + color} color-on-scroll="100" expand="lg">
+      <Container fluid>
+        <div className="navbar-wrapper">
+          <div className="navbar-minimize d-inline">
+            <Button
+              className="minimize-sidebar btn-just-icon"
+              color="link"
+              id="tooltip209599"
+              onClick={handleMiniClick}
             >
-              <button className="navbar-toggler" type="button" onClick={toggleSidebar}>
-                <span className="navbar-toggler-bar bar1" />
-                <span className="navbar-toggler-bar bar2" />
-                <span className="navbar-toggler-bar bar3" />
-              </button>
-            </div>
-            <NavbarBrand to="/" id="navbar-brand" tag={Link}>
-              <span>kd13 • </span>
-              experiment9
-            </NavbarBrand>
-            <UncontrolledTooltip placement="bottom" target="navbar-brand">
-              Designed and Coded by K1d Darkn3ss
+              <i className="tim-icons icon-align-center visible-on-sidebar-regular" />
+              <i className="tim-icons icon-bullet-list-67 visible-on-sidebar-mini" />
+            </Button>
+            <UncontrolledTooltip delay={0} target="tooltip209599" placement="right">
+              Sidebar toggle
             </UncontrolledTooltip>
-            <button
-              aria-expanded={collapseOpen}
-              className="navbar-toggler navbar-toggler"
-              onClick={toggleCollapse}
-            >
+          </div>
+          <div
+            className={classNames('navbar-toggle d-inline', {
+              toggled: sidebarOpened,
+            })}
+          >
+            <button className="navbar-toggler" type="button" onClick={toggleSidebar}>
               <span className="navbar-toggler-bar bar1" />
               <span className="navbar-toggler-bar bar2" />
               <span className="navbar-toggler-bar bar3" />
             </button>
           </div>
-          <Collapse
-            className={'justify-content-end ' + collapseOut}
-            navbar
-            isOpen={collapseOpen}
-            onExiting={onCollapseExiting}
-            onExited={onCollapseExited}
+          <NavbarBrand to="/" id="navbar-brand" tag={Link}>
+            <span>kd13 • </span>
+            experiment9
+          </NavbarBrand>
+          <UncontrolledTooltip placement="bottom" target="navbar-brand">
+            Designed and Coded by K1d Darkn3ss
+          </UncontrolledTooltip>
+          <button
+            aria-expanded={collapseOpen}
+            className="navbar-toggler navbar-toggler"
+            onClick={toggleCollapse}
           >
-            <div className="navbar-collapse-header">
-              <Row>
-                <Col className="collapse-brand" xs="6">
-                  <a href="#dallas" onClick={(e) => e.preventDefault()}>
-                    KD13•Poker
-                  </a>
-                </Col>
-                <Col className="collapse-close text-right" xs="6">
-                  <button
-                    aria-expanded={collapseOpen}
-                    className="navbar-toggler"
-                    onClick={toggleCollapse}
-                  >
-                    <i className="tim-icons icon-simple-remove" />
-                  </button>
-                </Col>
-              </Row>
-            </div>
-            <Nav navbar>
-              <NavItem className="p-0">
-                <NavLink
-                  data-placement="bottom"
-                  href="#"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  title="Follow us on Twitter"
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+        </div>
+        <Collapse
+          className={'justify-content-end ' + collapseOut}
+          navbar
+          isOpen={collapseOpen}
+          onExiting={onCollapseExiting}
+          onExited={onCollapseExited}
+        >
+          <div className="navbar-collapse-header">
+            <Row>
+              <Col className="collapse-brand" xs="6">
+                <a href="#dallas" onClick={(e) => e.preventDefault()}>
+                  KD13•Poker
+                </a>
+              </Col>
+              <Col className="collapse-close text-right" xs="6">
+                <button
+                  aria-expanded={collapseOpen}
+                  className="navbar-toggler"
+                  onClick={toggleCollapse}
                 >
-                  <i className="fab fa-twitter" />
-                  <p className="d-lg-none d-xl-none">Twitter</p>
-                </NavLink>
-              </NavItem>
-              <NavItem className="p-0">
-                <NavLink
-                  data-placement="bottom"
-                  href="#"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  title="Like us on Facebook"
-                >
-                  <i className="fab fa-facebook-square" />
-                  <p className="d-lg-none d-xl-none">Facebook</p>
-                </NavLink>
-              </NavItem>
-              <NavItem className="p-0">
-                <NavLink
-                  data-placement="bottom"
-                  href="#"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  title="Follow us on Instagram"
-                >
-                  <i className="fab fa-instagram" />
-                  <p className="d-lg-none d-xl-none">Instagram</p>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <Button
-                  className="nav-link d-none d-lg-block"
-                  color="primary"
-                  tag={Link}
-                  to="/dashboard"
-                >
-                  <i className="tim-icons icon-chart-bar-32" /> Dashboard
+                  <i className="tim-icons icon-simple-remove" />
+                </button>
+              </Col>
+            </Row>
+          </div>
+          <Nav navbar>
+            <NavItem>
+              <Button
+                className="nav-link d-none d-lg-block"
+                color="primary"
+                tag={Link}
+                to="/dashboard"
+              >
+                <i className="tim-icons icon-chart-bar-32" /> Dashboard
+              </Button>
+            </NavItem>
+            <NavItem>
+              <Button className="nav-link d-none d-lg-block" color="success" tag={Link} to="/admin">
+                <i className="tim-icons icon-components" /> Console
+              </Button>
+            </NavItem>
+            <NavItem>
+              {user ? (
+                <Button onClick={logout} className="btn-link">
+                  Logout
                 </Button>
-              </NavItem>
-              <NavItem>
-                <Button
-                  className="nav-link d-none d-lg-block"
-                  color="success"
-                  tag={Link}
-                  to="/admin"
-                >
-                  <i className="tim-icons icon-components" /> Console
-                </Button>
-              </NavItem>
-              <NavItem>
-                {authState.isAuthenticated ? (
-                  <NavLink onClick={logout}>Logout</NavLink>
-                ) : (
-                  <NavLink tag={Link} to="/login">
-                    <i className="tim-icons icon-badge" />
-                    Login
-                  </NavLink>
-                )}
-              </NavItem>
-              <NavItem>
-                {authState.isAuthenticated ? (
-                  <NavLink tag={Link} to="/profile">
-                    {authState.accessToken.claims.user.profile.nickName
-                      ? authState.accessToken.claims.user.profile.nickName
-                      : authState.accessToken.claims.user.profile.firstName}
-                  </NavLink>
-                ) : (
-                  <NavLink tag={Link} to="/register">
-                    Register
-                  </NavLink>
-                )}
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Container>
-      </Navbar>
-    );
-  }
+              ) : (
+                <NavLink tag={Link} to="/login">
+                  <i className="tim-icons icon-badge" />
+                  Login
+                </NavLink>
+              )}
+            </NavItem>
+            <NavItem>
+              {user ? (
+                <NavLink tag={Link} to="/profile">
+                  {user.displayName ? user.displayName : user.email}
+                </NavLink>
+              ) : (
+                <NavLink tag={Link} to="/register">
+                  Register
+                </NavLink>
+              )}
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </Container>
+    </Navbar>
+  );
 };
 
 export default Navi;

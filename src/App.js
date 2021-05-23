@@ -1,8 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
-import { Security, LoginCallback, SecureRoute } from '@okta/okta-react';
-import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
+import UserProvider from './providers/UserProvider';
 import Navi from './Components/navigation/Navi';
 import Home from './Views/Home';
 import Admin from './Views/Admin';
@@ -12,38 +11,19 @@ import Registration from './Views/Auth/Registration';
 import Login from './Views/Auth/Login';
 
 const App = () => {
-  const history = useHistory();
-  const restoreOriginalUri = async (_oktaAuth, originalUri) => {
-    history.replace(toRelativeUrl(originalUri, window.location.origin));
-  };
-
-  const customAuthHandler = () => {
-    history.push('/login');
-  };
-
-  const oktaAuth = new OktaAuth({
-    issuer: `https://${process.env.OKTA_DOMAIN}.okta.com/oauth2/default`,
-    clientId: process.env.OKTA_REACT_CLIENTID,
-    redirectUri: window.location.origin + '/login/callback',
-  });
   return (
     <Router>
-      <Security
-        oktaAuth={oktaAuth}
-        onAuthRequired={customAuthHandler}
-        restoreOriginalUri={restoreOriginalUri}
-      >
-        <Navi />
+      <UserProvider>
+        <Navi history={history} />
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/admin" component={Admin} />
-          <SecureRoute path="/high" component={HighRoller} />
+          <Route path="/high" component={HighRoller} />
           <Route path="/Dashboard" component={Dashboard} />
           <Route path="/registration" component={Registration} />
         </Switch>
         <Route path="/login" component={Login} />
-        <Route path="/login/callback" component={LoginCallback} />
-      </Security>
+      </UserProvider>
     </Router>
   );
 };

@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useOktaAuth } from '@okta/okta-react';
-import axios from 'axios';
 import useReactiveTable from './Components/useReactTable';
 import { Button, Row, Col, Card, CardHeader, CardTitle, CardBody, CardSubtitle } from 'reactstrap';
 import NotificationAlert from 'react-notification-alert';
+import { firestore } from '../../firebase';
+import { collectIdsAndDocs } from '../../utilities';
 
 const Bob = () => {
-  const { authState } = useOktaAuth();
   const defaultState = [{ Player: 'Not Found', Player_ID: 'Unknown', Score: 0 }];
   const [players, setPlayers] = useState(defaultState);
   const [col] = useState([
     { Header: 'ID', accessor: 'Player_ID' },
-    { Header: 'Name', accessor: 'Player' },
-    { Header: 'Score', accessor: 'Score' },
+    { Header: 'Name', accessor: 'Name' },
+    { Header: 'Rank', accessor: 'Rank' },
   ]);
   const [bob, BobTable] = useReactiveTable(
     {
@@ -33,34 +32,20 @@ const Bob = () => {
       autoDismiss: 15,
     };
     notificationAlertRef.current.notificationAlert(options);
-    axios
-      .get(`${process.env.SERVER}/players/reset`, {
-        headers: {
-          'x-sheldyn-Authorization': authState.accessToken.accessToken,
-        },
-      })
-      .then(() => {
-        setPlayers(defaultState);
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
   };
 
   useEffect(() => {
-    axios
-      .get(`${process.env.SERVER}/players/get`, {
-        headers: {
-          'x-sheldyn-Authorization': authState.accessToken.accessToken,
-        },
-      })
-      .then((response) => {
-        response.data.length === 0 ? setPlayers(defaultState) : setPlayers(response.data);
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
-  }, [bob, setPlayers, authState.accessToken.accessToken]);
+    // const getPost = async () => {
+    //   const snapshot = await firestore
+    //     .collection('Bob/5f5e72a2817f77659582edeb/scoreBoard')
+    //     .orderBy('Rank', 'desc')
+    //     .get();
+    //   const scoreBoard = snapshot.docs.map(collectIdsAndDocs);
+    //   setPlayers(scoreBoard);
+    // };
+    // getPost();
+  }, []);
+
   return (
     <div className="content">
       <div className="">
@@ -73,7 +58,7 @@ const Bob = () => {
             <span className="emoji" role="img" aria-label="crown">
               👑
             </span>{' '}
-            {players[0].Player}{' '}
+            {players[0].Name}{' '}
             <span className="emoji" role="img" aria-label="crown">
               👑
             </span>

@@ -2,47 +2,46 @@ import React, { Component, createRef } from 'react';
 import { CSVReader } from 'react-papaparse';
 import { Row, Container, Button } from 'reactstrap';
 import ErrorBoundary from './ErrorBoundary';
+import { firestore } from '../../../firebase';
 
 const buttonRef = createRef();
 
 class Uploader extends Component {
   state = { loaded: false, status: 'no file has been loaded' };
 
-  handleOnDrop = (file) => {
-    console.log(file);
-    console.log('---------------------------');
-    fetch(`${process.env.SERVER}/upload`, {
-      method: 'POST',
-      body: JSON.stringify(file),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-        'x-sheldyn-Authorization': this.props.accessToken,
-      },
-    }).then(
-      (response) => {
-        if (response.ok) {
-          this.setState({ status: 'File Uploaded for Processing', loaded: true });
-          let options = {};
-          options = {
-            place: 'tr',
-            message: 'Your file was successfully processed!',
-            type: 'success',
-            icon: 'tim-icons icon-check-2',
-            autoDismiss: 7,
-          };
-          this.props.alertSuccess(options);
+  handleOnDrop = async (file) => {
+    const batch = firestore.batch();
+    // Collect club information
+    const gameInfo = (({ ClubID, GameCode, GameName, GameType, DateStarted, DateEnded }) => ({
+      ClubID,
+      GameCode,
+      GameName,
+      GameType,
+      DateStarted,
+      DateEnded,
+    }))(file[0].data);
+    const clubRef = await firestore.collection(`Clubs/${gameInfo.ClubID}/Games/`).doc();
 
-          return response.body;
-        } else {
-          this.setState({ status: 'File was rejected by Server' });
-          return Promise.reject(response);
-        }
-      },
-      (error) => {
-        console.error(error);
-        this.setState({ status: 'Unknown Error has occured' });
-      },
-    );
+    await batch.set(clubRef, gameInfo);
+    const tpp = file.length + 1;
+    await file.map(async ({ data }) => {
+      const player = {
+        Name: data.Player,
+        Player_ID: data.ID,
+        Hands: data.Hands,
+        Profit: data.Profit,
+        Rank: tpp - data.Rank,
+      };
+
+      const bobRef = await firestore.collection(`Bob/${gameInfo.ClubID}/scoreBoard/`).doc(data.ID);
+      await batch.set(bobRef, player);
+    });
+
+    await batch.commit().catch((error) => {
+      if (error) {
+        console.log('log this error to splunk');
+      }
+    });
   };
 
   handleOnError = (err, file, inputElem, reason) => {

@@ -1,10 +1,8 @@
 import React, { useRef } from 'react';
-import { useOktaAuth } from '@okta/okta-react';
 import Uploader from './Components/Uploader';
 import NotificationAlert from 'react-notification-alert';
 
 const Tournaments = () => {
-  const { authState } = useOktaAuth();
   const notificationAlertRef = useRef(null);
   const alertSuccess = (options) => {
     notificationAlertRef.current.notificationAlert(options);
@@ -22,7 +20,7 @@ const Tournaments = () => {
             <li>Configure email for auto game update!</li>
           </ul>
         </div>
-        <Uploader alertSuccess={alertSuccess} accessToken={authState.accessToken.accessToken} />
+        <Uploader alertSuccess={alertSuccess} />
       </div>
     </div>
   );

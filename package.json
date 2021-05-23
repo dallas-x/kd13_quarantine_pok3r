@@ -31,8 +31,6 @@
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^11.2.0",
     "@emotion/core": "^11.0.0",
-    "@okta/okta-auth-js": "^4.8.0",
-    "@okta/okta-react": "^5.1.1",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
     "firebase": "^8.4.1",

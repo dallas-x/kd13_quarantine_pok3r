@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useOktaAuth } from '@okta/okta-react';
+import React, { useState, useRef, useContext } from 'react';
+import { auth } from '../firebase';
+import { UserContext } from '../providers/UserProvider';
 import Sidebar from '../Components/navigation/Sidebar';
 import FixedPlugin from '../Components/plugin/FixedPlugin';
 import { Container } from 'reactstrap';
@@ -9,15 +10,13 @@ import routes from '../routes';
 import logo from 'url:../assets/logo/LogoMakr-81cC63.png';
 
 const Admin = () => {
-  const { authState, oktaAuth } = useOktaAuth();
-  const [userInfo, setUserInfo] = useState(null);
   const [activeColor, setActiveColor] = useState('blue');
   const [sidebarMini, setSidebarMini] = useState(true);
   const [opacity, setOpacity] = useState(0);
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const mainPanelRef = useRef(null);
   const notificationAlertRef = useRef(null);
-  const location = useLocation();
+  const user = useContext(UserContext);
 
   const getRoutes = (routes) => {
     return routes.map((route, key) => {
@@ -60,43 +59,10 @@ const Admin = () => {
     document.documentElement.classList.remove('nav-open');
   };
 
-  useEffect(() => {
-    if (!authState.isAuthenticated) {
-      // When user isn't authenticated, forget any user info
-      setUserInfo(null);
-    } else {
-      setUserInfo(authState.accessToken.claims.user.profile);
-      // This is currently not working.. ticket opened with okta to resolve
-      // oktaAuth
-      //   .getUser({
-      //     accessToken: authState.accessToken.accessToken,
-      //     idToken: authState.idToken.idToken,
-      //   })
-      //   .then((info) => {
-      //     console.log(info);
-      //     setUserInfo(info);
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //   });
-    }
-  }, [authState, oktaAuth]);
-
-  if (authState.isPending) {
-    return (
-      <div className="profile-page">
-        <div className="wrapper">
-          <section className="section">
-            <Container>Loading...</Container>
-          </section>
-        </div>
-      </div>
-    );
-  }
-  if (!authState.isAuthenticated) {
+  if (!user) {
     return <Redirect to="/login" />;
   }
-  if (authState.isAuthenticated)
+  if (user)
     return (
       <div className="wrapper">
         <div className="rna-container">

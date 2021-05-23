@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useOktaAuth } from '@okta/okta-react';
-import axios from 'axios';
 import useReactiveTable from './Components/useReactTable';
 import { Button, Row, Col } from 'reactstrap';
 
 const Users = () => {
-  const { authState } = useOktaAuth();
   const [players, setPlayers] = useState([]);
   const [col] = useState([
     { Header: 'ID', accessor: 'Player_ID' },
@@ -19,22 +16,8 @@ const Users = () => {
   });
 
   useEffect(() => {
-    axios
-      .get(`${process.env.SERVER}/users/get`, {
-        headers: {
-          'x-sheldyn-Authorization': authState.accessToken.accessToken,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        response.data.length === 0
-          ? setPlayers([{ Player: 'Not Found', Player_ID: 'Unknown' }])
-          : setPlayers(response.data);
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
-  }, [bob, setPlayers, authState.accessToken.accessToken]);
+    // do something with firebase
+  }, []);
   return (
     <div className="content">
       <Row>
