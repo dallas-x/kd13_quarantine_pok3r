@@ -1,10 +1,10 @@
 // This is used for admin dashboards only.
 // For main routing please see app.js
-import Dashboard from './Components/Dashboard/Dashboard';
-import Tournaments from './Components/Dashboard/Tournaments';
-import Stats from './Components/Dashboard/Stats';
-import Messages from './Components/Dashboard/Messages';
-import Profile from './Components/Dashboard/Profile';
+import Dashboard from './Components/dashboard/Dashboard';
+import Tournaments from './Components/dashboard/Tournaments';
+import Stats from './Components/dashboard/Stats';
+import Messages from './Components/dashboard/Messages';
+import Profile from './Components/dashboard/Profile';
 
 const routes = [
   {

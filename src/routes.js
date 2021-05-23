@@ -1,16 +1,16 @@
 // This is used for admin dashboards only.
 // For main routing please see app.js
-import Dashboard from './Components/Admin/Dashboard';
-import Users from './Components/Admin/Users';
-import Bob from './Components/Admin/Bob';
-import CashGames from './Components/Admin/CashGames';
-import Tournaments from './Components/Admin/Tournaments';
-import Stats from './Components/Admin/Stats';
-import CashHand from './Components/Admin/CashHand';
-import Seasons from './Components/Admin/Seasons';
-import Messages from './Components/Admin/Messages';
-import Settings from './Components/Admin/Settings';
-import UploadData from './Components/Admin/UploadData';
+import Dashboard from './Components/admin/Dashboard';
+import Users from './Components/admin/Users';
+import Bob from './Components/admin/Bob';
+import CashGames from './Components/admin/CashGames';
+import Tournaments from './Components/admin/Tournaments';
+import Stats from './Components/admin/Stats';
+import CashHand from './Components/admin/CashHand';
+import Seasons from './Components/admin/Seasons';
+import Messages from './Components/admin/Messages';
+import Settings from './Components/admin/Settings';
+import UploadData from './Components/admin/UploadData';
 
 const routes = [
   {

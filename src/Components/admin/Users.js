@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useReactiveTable from './Components/useReactTable';
+import useReactiveTable from './components/useReactTable';
 import { Button, Row, Col } from 'reactstrap';
 
 const Users = () => {

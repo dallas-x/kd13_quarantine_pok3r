@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { auth, getUserDocument } from '../../firebase';
-import UnderConstruction from './Components/UnderConstruction';
+import UnderConstruction from './components/UnderConstruction';
 
 const Settings = () => {
   const [userInfo, setUserInfo] = useState(null);
   useEffect(async () => {
     const user = await getUserDocument(auth.currentUser.uid);
-    console.log(user);
+    console.log((await user.get()).data());
   }, []);
   return (
     <div className="content">

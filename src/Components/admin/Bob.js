@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useReactiveTable from './Components/useReactTable';
+import useReactiveTable from './components/useReactTable';
 import { Button, Row, Col, Card, CardHeader, CardTitle, CardBody, CardSubtitle } from 'reactstrap';
 import NotificationAlert from 'react-notification-alert';
 import { firestore } from '../../firebase';

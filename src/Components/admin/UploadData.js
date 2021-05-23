@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import Uploader from './Components/Uploader';
+import Uploader from './components/Uploader';
 import NotificationAlert from 'react-notification-alert';
 
 const Tournaments = () => {
