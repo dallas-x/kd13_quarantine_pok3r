@@ -5,9 +5,10 @@
   "author": "Sheldyn",
   "license": "AGPL-1.0-or-later",
   "private": true,
+  "browser": "dist/browser/index.html",
   "scripts": {
     "dev": "NODE_ENV=dev parcel serve src/index.html --open",
-    "build": "parcel build src/index.html --dist-dir public/",
+    "build": "parcel build src/index.html",
     "lint": "elint \"src/**/*.{js,jsx}\" --quiet"
   },
   "devDependencies": {
