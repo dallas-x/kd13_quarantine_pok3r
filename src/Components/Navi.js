@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../../providers/UserProvider';
-import { auth } from '../../firebase';
+import { UserContext } from '../providers/UserProvider';
+import { auth } from '../firebase';
 import { Link, useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import {
