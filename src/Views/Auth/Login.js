@@ -58,7 +58,7 @@ const Login = () => {
     );
   };
 
-  const fireLogin = async (username, password) => {
+  const fireLogin = (username, password) => {
     auth
       .signInWithEmailAndPassword(username, password)
       .then((userCredential) => {

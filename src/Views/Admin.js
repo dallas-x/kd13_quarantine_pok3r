@@ -1,11 +1,9 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import { auth } from '../firebase';
-import { UserContext } from '../providers/UserProvider';
 import Sidebar from '../Components/navigation/Sidebar';
 import FixedPlugin from '../Components/plugin/FixedPlugin';
-import { Container } from 'reactstrap';
 import NotificationAlert from 'react-notification-alert';
-import { Redirect, Route, useLocation, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import routes from '../routes';
 import logo from 'url:../assets/logo/LogoMakr-81cC63.png';
 
@@ -16,7 +14,6 @@ const Admin = () => {
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const mainPanelRef = useRef(null);
   const notificationAlertRef = useRef(null);
-  const user = useContext(UserContext);
 
   const getRoutes = (routes) => {
     return routes.map((route, key) => {
@@ -59,10 +56,10 @@ const Admin = () => {
     document.documentElement.classList.remove('nav-open');
   };
 
-  if (!user) {
+  if (!auth.currentUser) {
     return <Redirect to="/login" />;
   }
-  if (user)
+  if (auth.currentUser)
     return (
       <div className="wrapper">
         <div className="rna-container">
