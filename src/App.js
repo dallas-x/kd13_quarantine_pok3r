@@ -3,12 +3,12 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import UserProvider from './providers/UserProvider';
 import Navi from './Components/navigation/Navi';
-import Home from './views/Home';
-import Admin from './views/Admin';
-import Dashboard from './views/Dashboard';
-import HighRoller from './views/HighRoller';
-import Registration from './views/Auth/Registration';
-import Login from './views/Auth/Login';
+import Home from './Views/Home';
+import Admin from './Views/Admin';
+import Dashboard from './Views/Dashboard';
+import HighRoller from './Views/HighRoller';
+import Registration from './Views/Auth/Registration';
+import Login from './Views/Auth/Login';
 
 const App = () => {
   return (

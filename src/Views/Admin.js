@@ -14,7 +14,6 @@ const Admin = () => {
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const mainPanelRef = useRef(null);
   const notificationAlertRef = useRef(null);
-  console.log(auth.currentUser);
 
   const getRoutes = (routes) => {
     return routes.map((route, key) => {
