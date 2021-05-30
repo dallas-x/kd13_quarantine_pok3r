@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { auth } from '../../firebase';
 import classnames from 'classnames';
 import purpleBlock from 'url:../../assets/img/square-purple-1.png';
 // reactstrap components
@@ -22,13 +23,18 @@ import {
   Col,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import NotificationAlert from 'react-notification-alert';
 
 const Registration = () => {
-  const [squares1to6, setSquares1to6] = React.useState('');
-  const [squares7and8, setSquares7and8] = React.useState('');
-  const [fullNameFocus, setFullNameFocus] = React.useState(false);
-  const [emailFocus, setEmailFocus] = React.useState(false);
-  const [referralFocus, setReferralFocus] = React.useState(false);
+  const [squares1to6, setSquares1to6] = useState('');
+  const [squares7and8, setSquares7and8] = useState('');
+  const [emailFocus, setEmailFocus] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const notificationAlertRef = useRef(null);
+  const history = useHistory();
   useEffect(() => {
     document.body.classList.toggle('register-page');
     document.documentElement.addEventListener('mousemove', followCursor);
@@ -48,8 +54,36 @@ const Registration = () => {
       'perspective(500px) rotateY(' + posX * 0.02 + 'deg) rotateX(' + posY * -0.02 + 'deg)',
     );
   };
+  const fireRegistration = (email, password) => {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        console.log(userCredential);
+        if (userCredential.additionalUserInfo.isNewUser) {
+          history.push('/admin/upload');
+        } else history.go('/admin');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        let errorMessage = error.message;
+        const options = {
+          place: 'tr',
+          message: errorMessage,
+          type: 'danger',
+          icon: 'tim-icons icon-bell-55',
+          autoDismiss: 7,
+        };
+        if (errorCode === 'auth/wrong-password' || errorCode === 'auth/user-not-found') {
+          notificationAlertRef.current.notificationAlert(options);
+        } else {
+          errorMessage = 'An uknown error has occurred, please contact support!';
+          notificationAlertRef.current.notificationAlert(options);
+        }
+      });
+  };
   return (
     <div className="wrapper">
+      <NotificationAlert ref={notificationAlertRef} />
       <div className="page-header">
         <div className="page-header-image" />
         <div className="content">
@@ -64,24 +98,13 @@ const Registration = () => {
                     <CardTitle tag="h4">Register</CardTitle>
                   </CardHeader>
                   <CardBody>
-                    <Form className="form">
-                      <InputGroup
-                        className={classnames({
-                          'input-group-focus': fullNameFocus,
-                        })}
-                      >
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="tim-icons icon-single-02" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input
-                          placeholder="League ID"
-                          type="text"
-                          onFocus={(e) => setFullNameFocus(true)}
-                          onBlur={(e) => setFullNameFocus(false)}
-                        />
-                      </InputGroup>
+                    <Form
+                      className="form"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        fireRegistration(email, password);
+                      }}
+                    >
                       <InputGroup
                         className={classnames({
                           'input-group-focus': emailFocus,
@@ -93,15 +116,17 @@ const Registration = () => {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          placeholder="Email"
+                          placeholder="email"
                           type="text"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                           onFocus={(e) => setEmailFocus(true)}
                           onBlur={(e) => setEmailFocus(false)}
                         />
                       </InputGroup>
                       <InputGroup
                         className={classnames({
-                          'input-group-focus': referralFocus,
+                          'input-group-focus': passwordFocus,
                         })}
                       >
                         <InputGroupAddon addonType="prepend">
@@ -110,10 +135,12 @@ const Registration = () => {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          placeholder="Referral"
-                          type="text"
-                          onFocus={(e) => setReferralFocus(true)}
-                          onBlur={(e) => setReferralFocus(false)}
+                          placeholder="*********"
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          onFocus={(e) => setPasswordFocus(true)}
+                          onBlur={(e) => setPasswordFocus(false)}
                         />
                       </InputGroup>
                       <FormGroup check className="text-left">
@@ -126,12 +153,15 @@ const Registration = () => {
                           .
                         </Label>
                       </FormGroup>
+                      <br />
+                      <FormGroup>
+                        <Button className="btn-round" color="primary" size="lg">
+                          Get Started
+                        </Button>
+                      </FormGroup>
                     </Form>
                   </CardBody>
                   <CardFooter>
-                    <Button disabled="true" className="btn-round" color="primary" size="lg">
-                      Get Started
-                    </Button>
                     <a
                       className="btn btn-round"
                       color="secondary"

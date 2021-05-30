@@ -172,7 +172,7 @@ const Navi = () => {
                   {user.displayName ? user.displayName : user.email}
                 </NavLink>
               ) : (
-                <NavLink tag={Link} to="/register">
+                <NavLink tag={Link} to="/registration">
                   Register
                 </NavLink>
               )}
