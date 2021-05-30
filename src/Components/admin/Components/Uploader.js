@@ -2,7 +2,8 @@ import React, { Component, createRef } from 'react';
 import { CSVReader } from 'react-papaparse';
 import { Row, Container, Button } from 'reactstrap';
 import ErrorBoundary from './ErrorBoundary';
-import { firestore } from '../../../firebase';
+import { firestore, updateUserProfileDocument } from '../../../firebase';
+import { createWeek } from '../../../utilities';
 
 const buttonRef = createRef();
 
@@ -24,6 +25,11 @@ class Uploader extends Component {
 
     await batch.set(clubRef, gameInfo);
     const tpp = file.length + 1;
+    console.log(this.props.newUser);
+    console.log(this.props.user);
+    if (this.props.newUser) {
+      await updateUserProfileDocument(this.props.user, { clubID: gameInfo.ClubID });
+    }
     await file.map(async ({ data }) => {
       const player = {
         Name: data.Player,
@@ -32,8 +38,10 @@ class Uploader extends Component {
         Profit: data.Profit,
         Rank: tpp - data.Rank,
       };
-
-      const bobRef = await firestore.collection(`Bob/${gameInfo.ClubID}/scoreBoard/`).doc(data.ID);
+      const currentWeek = createWeek();
+      const bobRef = await firestore
+        .collection(`Bob/${gameInfo.ClubID}/${currentWeek}/`)
+        .doc(data.ID);
       await batch.set(bobRef, player);
     });
 
@@ -67,6 +75,7 @@ class Uploader extends Component {
     return (
       <Container>
         <Row>
+          <p>{this.props.newUser}</p>
           <CSVReader
             type="button"
             onDrop={this.handleOnDrop}

@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import useReactiveTable from './components/useReactTable';
 import { Button, Row, Col, Card, CardHeader, CardTitle, CardBody, CardSubtitle } from 'reactstrap';
 import NotificationAlert from 'react-notification-alert';
-import { firestore } from '../../firebase';
-import { collectIdsAndDocs } from '../../utilities';
+import { auth, firestore, getUserDocument } from '../../firebase';
+import { collectIdsAndDocs, createWeek } from '../../utilities';
 
 const Bob = () => {
   const defaultState = [{ Player: 'Not Found', Player_ID: 'Unknown', Score: 0 }];
@@ -26,7 +26,7 @@ const Bob = () => {
     let options = {};
     options = {
       place: 'tr',
-      message: 'This will be deprecated soon, in the future you will need to start a new season!',
+      message: 'Seasons are now automatically configured',
       type: 'default',
       icon: 'tim-icons icon-alert-circle-exc',
       autoDismiss: 15,
@@ -35,15 +35,18 @@ const Bob = () => {
   };
 
   useEffect(() => {
-    // const getPost = async () => {
-    //   const snapshot = await firestore
-    //     .collection('Bob/5f5e72a2817f77659582edeb/scoreBoard')
-    //     .orderBy('Rank', 'desc')
-    //     .get();
-    //   const scoreBoard = snapshot.docs.map(collectIdsAndDocs);
-    //   setPlayers(scoreBoard);
-    // };
-    // getPost();
+    const getPost = async () => {
+      const weekNumber = createWeek();
+      const userDoc = await (await getUserDocument(auth.currentUser.uid)).get();
+      const user = userDoc.data();
+      const snapshot = await firestore
+        .collection(`Bob/${user.clubID}/${weekNumber}`)
+        .orderBy('Rank', 'desc')
+        .get();
+      const scoreBoard = snapshot.docs.map(collectIdsAndDocs);
+      setPlayers(scoreBoard);
+    };
+    getPost();
   }, []);
 
   return (
@@ -76,6 +79,10 @@ const Bob = () => {
                   <i className="tim-icons icon-refresh-01" /> Reset
                 </Button>
               </div>
+            </Col>
+            <Col>
+              {' '}
+              <h3>Week {createWeek()}</h3>
             </Col>
           </Row>
           <BobTable />

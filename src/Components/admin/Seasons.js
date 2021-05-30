@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Row, Col, Card, CardHeader, CardTitle, CardBody, CardSubtitle } from 'reactstrap';
 import NotificationAlert from 'react-notification-alert';
+import { collectIdsAndDocs, createWeek } from '../../utilities';
 
 const Seasons = () => {
-  const [seasons, setSeasons] = useState([{ Week: 'No week found', TPP: 0, _id: 0 }]);
+  const [seasons, setSeasons] = useState([
+    { Games: "something doesn't seem right", Cash: `$${0}`, _id: 0 },
+  ]);
 
   const notificationAlertRef = useRef(null);
   const woopsx = () => {
@@ -51,18 +54,18 @@ const Seasons = () => {
       <br />
       <Row>
         <div className="card">
-          <h3 className="card-title">Current Bob Season</h3>
+          <h3 className="card-title">Current Season</h3>
 
           <div className="card-body">
             <div className="blockquote blockquote-primary">
               <p className="blockquote blockquote">
-                {`Season: ${seasons[0]._id}` || 'no data found'}
+                {`Season: ${createWeek()}` || 'no data found'}
               </p>
               <p className="blockquote blockquote">
-                {`Week: ${seasons[0].Week}` || 'no data found'}
+                {`Games: ${seasons[0].Games}` || "something doesn't seem right"}
               </p>
               <p className="blockquote blockquote">
-                {`Total Possible Points: ${seasons[0].TPP}` || 'no data found'}
+                {`Cash: ${seasons[0].Cash}` || 'no data found'}
               </p>
             </div>
           </div>
