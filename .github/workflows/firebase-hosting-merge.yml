@@ -6,10 +6,10 @@ name: Deploy to Firebase Hosting on merge
   push:
     branches:
       - main
-enviroment: Preview
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    environment: Preview
     steps:
       - uses: actions/checkout@v2
       - run: yarn install && yarn run build
