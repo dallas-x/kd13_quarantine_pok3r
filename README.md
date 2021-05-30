@@ -13,7 +13,7 @@
 
 </div>
 
-![Process Poker Stats](https://github.com/k1ddarkn3ss/gifs/blob/main/2021-03-01%2023.39.51.gif)
+![Process Poker Stats](https://github.com/k1ddarkn3ss/gifs/blob/b15e77e830261554bdde6a6fe8749c0800f1da13/exp9/2021-05-30%2002.12.37.gif)
 
 ## App Screenshots
 
