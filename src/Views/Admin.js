@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { auth } from '../firebase';
-import Sidebar from '../Components/Sidebar';
-import FixedPlugin from '../Components/plugin/FixedPlugin';
+import { Sidebar } from '../Components/Sidebar';
+import { FixedPlugin } from '../Components/plugin/FixedPlugin';
 import NotificationAlert from 'react-notification-alert';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import routes from '../routes';
