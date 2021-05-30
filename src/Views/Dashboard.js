@@ -4,7 +4,7 @@ import Sidebar from '../Components/Sidebar.js';
 import FixedPlugin from '../Components/plugin/FixedPlugin.js';
 import NotificationAlert from 'react-notification-alert';
 import { Redirect, Route, useLocation, Switch } from 'react-router-dom';
-import routes from '../dashboard.routes';
+import routes from '../dashboard.routes.js';
 import logo from 'url:../assets/logo/LogoMakr-81cC63.png';
 
 const Dashboard = () => {

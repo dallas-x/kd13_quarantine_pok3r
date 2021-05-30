@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { auth } from '../firebase';
-import Sidebar from '../Components/Sidebar';
-import FixedPlugin from '../Components/plugin/FixedPlugin';
+import Sidebar from '../Components/Sidebar.js';
+import FixedPlugin from '../Components/plugin/FixedPlugin.js';
 import NotificationAlert from 'react-notification-alert';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import routes from '../routes';
+import routes from '../routes.js';
 import logo from 'url:../assets/logo/LogoMakr-81cC63.png';
 
 const Admin = () => {
